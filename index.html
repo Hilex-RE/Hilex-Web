@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hilex — Michael Abraham · Architect · Realtor · Investor</title>
+<style>
+  @font-face {
+    font-family: 'Futura LL';
+    src: local('Futura PT'), local('Futura PT Book'), local('Futura Std'),
+         local('Futura Std Book'), local('Futura'), local('Century Gothic'),
+         local('ITC Avant Garde'), local('Avenir Next'), local('Avenir');
+    font-weight: 300 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Futura LL';
+    src: local('Futura PT Medium'), local('Futura Std Medium'),
+         local('Futura Medium'), local('Century Gothic'),
+         local('Avenir Next Medium'), local('Avenir Medium');
+    font-weight: 500;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Futura LL';
+    src: local('Futura PT Bold'), local('Futura Std Bold'),
+         local('Futura Bold'), local('Century Gothic Bold'),
+         local('ITC Avant Garde Bold'), local('Avenir Next Bold'),
+         local('Avenir Bold');
+    font-weight: 700 800;
+    font-display: swap;
+  }
+
+  :root {
+    --navy-deep: #0A1F44;
+    --navy: #0D2B5C;
+    --electric: #2E5BFF;
+    --electric-hover: #4A75FF;
+    --cream: #F2EFE6;
+    --paper: #FAF7F0;
+    --ink: #0A0F1F;
+    --ink-soft: #3A4055;
+    --ink-mute: #6B7280;
+    --line: rgba(10, 31, 68, 0.12);
+    --gold: #D4A93C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  ::selection { background: var(--electric); color: var(--cream); }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Futura LL', 'Futura PT', Futura, 'Avenir Next', 'Century Gothic', sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    letter-spacing: 0.01em;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.05;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 22px 56px;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(242, 239, 230, 0.82);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    font-weight: 700; font-size: 22px; letter-spacing: 0.2em;
+    color: var(--navy-deep);
+    display: flex; align-items: center;
+  }
+
+  .logo-mark {
+    width: 10px; height: 10px;
+    background: var(--electric);
+    margin-right: 12px;
+    transform: rotate(45deg);
+  }
+
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--navy-deep); text-decoration: none;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; position: relative;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -6px; left: 0;
+    width: 0; height: 1px; background: var(--electric);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .nav-links a:hover { color: var(--electric); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--navy-deep); color: var(--cream);
+    padding: 12px 24px; text-decoration: none;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; transition: all 0.3s;
+    border: 1px solid var(--navy-deep);
+  }
+  .nav-cta:hover { background: var(--electric); border-color: var(--electric); }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    padding: 140px 56px 80px;
+    position: relative;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr;
+    gap: 80px; align-items: center;
+    position: relative; z-index: 2;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 14px;
+    margin-bottom: 40px;
+    animation: rise 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+
+  .hero-tag .dot {
+    width: 8px; height: 8px; background: var(--electric);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero-tag span {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--navy-deep);
+  }
+
+  /* Hero headline: use color + weight for separation, not different font */
+  .hero h1 {
+    font-weight: 700;
+    font-size: clamp(64px, 9vw, 156px);
+    line-height: 0.86; letter-spacing: -0.045em;
+    color: var(--navy-deep); text-transform: uppercase;
+    animation: rise 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both;
+  }
+
+  /* Light-weight + electric blue creates the contrast */
+  .hero h1 .accent {
+    font-weight: 300;
+    color: var(--electric);
+    letter-spacing: -0.04em;
+  }
+
+  .hero-sub-line {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 20px;
+    margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid var(--navy-deep);
+    animation: rise 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+  }
+
+  .hero-sub-line .role {
+    font-size: 13px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--navy-deep);
+  }
+
+  .hero-sub-line .divider {
+    width: 4px; height: 4px; background: var(--electric);
+    transform: rotate(45deg);
+  }
+
+  .hero-visual-stack {
+    position: relative;
+    animation: rise 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both;
+  }
+
+  .hero-portrait {
+    aspect-ratio: 4 / 5;
+    background-image: url('images/headshot-michael-2026.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    position: relative;
+  }
+
+  .hero-portrait::before {
+    content: 'M.A.';
+    position: absolute; top: 24px; right: 24px;
+    font-weight: 300; font-size: 56px;
+    color: var(--cream); line-height: 1; z-index: 2;
+    letter-spacing: 0.02em;
+  }
+
+  .hero-portrait::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(10, 31, 68, 0.7) 100%);
+    z-index: 1;
+  }
+
+  .portrait-caption {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    z-index: 3; color: var(--cream);
+  }
+
+  .portrait-caption .label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
+    text-transform: uppercase; opacity: 0.7; margin-bottom: 8px;
+  }
+
+  .portrait-caption .name {
+    font-weight: 500; font-size: 22px; letter-spacing: -0.01em;
+  }
+
+  .hero-card {
+    position: absolute; bottom: -40px; left: -60px;
+    background: var(--navy-deep); color: var(--cream);
+    padding: 24px 28px; z-index: 3; max-width: 280px;
+    border-left: 3px solid var(--electric);
+  }
+
+  .hero-card .num {
+    font-weight: 700; font-size: 52px;
+    line-height: 0.95; letter-spacing: -0.04em;
+    margin-bottom: 8px;
+  }
+
+  .hero-card .num .unit {
+    font-weight: 300; font-size: 0.45em;
+    color: var(--gold); letter-spacing: 0;
+    margin-left: 4px;
+  }
+
+  .hero-card .desc {
+    font-size: 12px; letter-spacing: 0.04em;
+    line-height: 1.5; opacity: 0.85;
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee {
+    background: var(--navy-deep); color: var(--cream);
+    padding: 28px 0; overflow: hidden; white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    animation: scroll 40s linear infinite;
+    font-weight: 700; font-size: 22px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+
+  .marquee-track span { display: inline-flex; align-items: center; gap: 48px; padding-right: 48px; }
+
+  .marquee-track .dot {
+    width: 8px; height: 8px; background: var(--electric);
+    border-radius: 50%; display: inline-block;
+  }
+
+  .marquee-track .light {
+    font-weight: 300; color: var(--gold);
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTIONS ============ */
+  section { padding: 140px 56px; position: relative; }
+
+  .section-header {
+    display: grid; grid-template-columns: 280px 1fr;
+    gap: 80px; margin-bottom: 96px; align-items: end;
+  }
+
+  .section-num {
+    font-weight: 300; font-size: 72px;
+    line-height: 0.9; color: var(--electric);
+    letter-spacing: -0.04em;
+  }
+
+  .section-num-label {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.28em;
+    text-transform: uppercase; color: var(--navy-deep);
+    margin-top: 14px;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: clamp(40px, 5.5vw, 88px);
+    line-height: 0.92; letter-spacing: -0.035em;
+    color: var(--navy-deep); text-transform: uppercase;
+    max-width: 1100px;
+  }
+
+  .section-title .accent {
+    font-weight: 300; color: var(--electric);
+  }
+
+  /* ============ ABOUT ============ */
+  .about { background: var(--paper); }
+
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+  }
+
+  .about-lede {
+    font-weight: 300;
+    font-size: clamp(26px, 2.8vw, 40px);
+    line-height: 1.25; letter-spacing: -0.02em;
+    color: var(--navy-deep); margin-bottom: 40px;
+  }
+
+  .about-lede .accent { color: var(--electric); font-weight: 400; }
+
+  .about-body p {
+    font-size: 16px; line-height: 1.7;
+    color: var(--ink-soft); margin-bottom: 20px;
+  }
+
+  .about-body p:last-child { margin-bottom: 0; }
+
+  .signature {
+    margin-top: 40px; padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 20px;
+  }
+
+  .sig-mark {
+    font-weight: 300; font-size: 52px;
+    color: var(--electric); line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .sig-info .name {
+    font-weight: 700; font-size: 15px; letter-spacing: 0.08em;
+    color: var(--navy-deep); text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .sig-info .title {
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+
+  /* ============ DISCIPLINES (6 — 3x2 grid) ============ */
+  .disciplines {
+    background: var(--navy-deep); color: var(--cream);
+    padding: 0;
+  }
+
+  .disciplines-inner {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(242, 239, 230, 0.15);
+  }
+
+  .discipline {
+    padding: 72px 40px;
+    border-right: 1px solid rgba(242, 239, 230, 0.15);
+    border-bottom: 1px solid rgba(242, 239, 230, 0.15);
+    position: relative; transition: background 0.5s ease;
+  }
+
+  .discipline:nth-child(3n) { border-right: none; }
+  .discipline:nth-child(n+4) { border-bottom: none; }
+  .discipline:hover { background: var(--navy); }
+
+  .discipline-num {
+    font-weight: 300; font-size: 14px;
+    color: var(--gold); margin-bottom: 32px; display: block;
+    letter-spacing: 0.04em;
+  }
+
+  .discipline h3 {
+    font-weight: 700; font-size: 28px;
+    letter-spacing: -0.02em; text-transform: uppercase;
+    line-height: 0.95; margin-bottom: 18px;
+  }
+
+  .discipline h3 .accent {
+    font-weight: 300; color: var(--electric);
+  }
+
+  .discipline p {
+    font-size: 14px; line-height: 1.65;
+    color: rgba(242, 239, 230, 0.7);
+  }
+
+  /* ============ PORTFOLIO ============ */
+  .portfolio-grid {
+    display: grid; grid-template-columns: repeat(12, 1fr);
+    gap: 32px; row-gap: 80px; margin-top: 40px;
+  }
+
+  .property { position: relative; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .property:hover { transform: translateY(-6px); }
+
+  .property-1 { grid-column: span 7; }
+  .property-2 { grid-column: span 5; margin-top: 80px; }
+  .property-3 { grid-column: span 5; }
+  .property-4 { grid-column: span 7; margin-top: -40px; }
+  .property-5 { grid-column: span 7; }
+  .property-6 { grid-column: span 5; margin-top: 80px; }
+
+  .property-image {
+    aspect-ratio: 4 / 3;
+    background-size: cover; background-position: center;
+    position: relative; overflow: hidden; margin-bottom: 24px;
+  }
+
+  .property-2 .property-image,
+  .property-3 .property-image,
+  .property-6 .property-image { aspect-ratio: 5/4; }
+
+  .property-1 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.2), rgba(10,31,68,0.5)),
+      url('https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=80');
+  }
+  .property-2 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.2), rgba(10,31,68,0.5)),
+      url('https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=1200&q=80');
+  }
+  .property-3 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.2), rgba(10,31,68,0.5)),
+      url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80');
+  }
+  .property-4 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.2), rgba(10,31,68,0.5)),
+      url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80');
+  }
+  .property-5 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.2), rgba(10,31,68,0.5)),
+      url('https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=1200&q=80');
+  }
+  .property-6 .property-image {
+    background-image: linear-gradient(rgba(10,31,68,0.35), rgba(10,31,68,0.7)),
+      url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=1200&q=80');
+  }
+
+  .property-tag {
+    position: absolute; top: 20px; left: 20px;
+    background: var(--cream); color: var(--navy-deep);
+    padding: 8px 14px;
+    font-size: 10px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.22em;
+  }
+
+  .property-tag.gold { background: var(--gold); color: var(--navy-deep); }
+  .property-tag.electric { background: var(--electric); color: var(--cream); }
+  .property-tag.navy { background: var(--navy-deep); color: var(--cream); }
+
+  .property-index {
+    position: absolute; bottom: 20px; right: 20px;
+    font-weight: 300; font-size: 64px;
+    color: var(--cream); line-height: 0.9; opacity: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .property-meta {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 20px; align-items: baseline;
+  }
+
+  .property-info h3 {
+    font-weight: 700; font-size: 22px;
+    letter-spacing: -0.01em; text-transform: uppercase;
+    color: var(--navy-deep); margin-bottom: 6px;
+  }
+
+  .property-info p {
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.16em; color: var(--ink-soft);
+  }
+
+  .property-stat { text-align: right; }
+
+  .property-stat .num {
+    font-weight: 300; font-size: 28px;
+    color: var(--electric); line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .property-stat .lbl {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--ink-soft); margin-top: 4px;
+  }
+
+  /* ============ STATS ============ */
+  .stats {
+    background: var(--cream); padding: 100px 56px;
+    border-top: 1px solid var(--line);
+  }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+  }
+
+  .stat { padding-left: 24px; border-left: 2px solid var(--electric); }
+
+  .stat-num {
+    font-weight: 700;
+    font-size: clamp(56px, 6vw, 92px);
+    letter-spacing: -0.045em; line-height: 0.9;
+    color: var(--navy-deep); margin-bottom: 16px;
+  }
+
+  .stat-num .accent {
+    font-weight: 300; color: var(--electric);
+  }
+
+  .stat-label {
+    font-size: 11px; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.22em;
+    color: var(--navy-deep);
+  }
+
+  /* ============ THESIS ============ */
+  .thesis {
+    background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+    color: var(--cream); position: relative; overflow: hidden;
+  }
+
+  .thesis::before {
+    content: 'HILEX';
+    position: absolute; bottom: -50px; right: -40px;
+    font-weight: 700; font-size: 400px;
+    letter-spacing: -0.05em; line-height: 0.8;
+    color: rgba(46, 91, 255, 0.08); pointer-events: none;
+  }
+
+  .thesis .section-title { color: var(--cream); }
+  .thesis .section-num { color: var(--gold); }
+  .thesis .section-num-label { color: var(--cream); }
+  .thesis .section-title .accent { color: var(--gold); }
+
+  .thesis-quote {
+    font-weight: 300;
+    font-size: clamp(32px, 4vw, 60px);
+    line-height: 1.15; letter-spacing: -0.025em;
+    max-width: 1200px; margin: 0 auto 100px;
+    text-align: center; color: var(--cream);
+    position: relative; z-index: 2;
+  }
+
+  .thesis-quote .mark {
+    color: var(--gold);
+  }
+
+  .thesis-quote .accent { color: var(--gold); }
+
+  .thesis-pillars {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 48px; position: relative; z-index: 2;
+  }
+
+  .pillar {
+    padding-top: 32px; border-top: 2px solid var(--electric);
+  }
+
+  .pillar-num {
+    font-weight: 700; font-size: 13px;
+    letter-spacing: 0.25em; color: var(--gold);
+    margin-bottom: 24px; text-transform: uppercase;
+  }
+
+  .pillar h4 {
+    font-weight: 700; font-size: 28px;
+    line-height: 1; letter-spacing: -0.02em;
+    text-transform: uppercase; margin-bottom: 20px;
+    color: var(--cream);
+  }
+
+  .pillar h4 .accent { font-weight: 300; color: var(--gold); }
+
+  .pillar p {
+    font-size: 15px; line-height: 1.65;
+    color: rgba(242, 239, 230, 0.75);
+  }
+
+  /* ============ SERVICES ============ */
+  .services-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 1px solid var(--navy-deep);
+  }
+
+  .service-card {
+    padding: 64px 56px; background: var(--cream);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    border-right: 1px solid var(--navy-deep);
+  }
+
+  .service-card:last-child { border-right: none; }
+
+  .service-card:hover { background: var(--navy-deep); color: var(--cream); }
+  .service-card:hover .service-num { color: var(--gold); }
+  .service-card:hover h3 { color: var(--cream); }
+  .service-card:hover h3 .accent { color: var(--gold); }
+  .service-card:hover .service-desc { color: rgba(242, 239, 230, 0.8); }
+  .service-card:hover .service-list { border-color: rgba(242, 239, 230, 0.2); }
+  .service-card:hover .service-list li { color: rgba(242, 239, 230, 0.75); border-color: rgba(242, 239, 230, 0.1); }
+  .service-card:hover .service-list li::before { color: var(--gold); }
+  .service-card:hover .service-cta { color: var(--cream); border-color: var(--cream); }
+  .service-card:hover .service-cta:hover { background: var(--cream); color: var(--navy-deep); }
+
+  .service-num {
+    font-weight: 300; font-size: 13px;
+    color: var(--electric); margin-bottom: 32px;
+    letter-spacing: 0.04em;
+    transition: color 0.5s;
+  }
+
+  .service-card h3 {
+    font-weight: 700;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 0.92; letter-spacing: -0.025em;
+    text-transform: uppercase; color: var(--navy-deep);
+    margin-bottom: 24px; transition: color 0.5s;
+  }
+
+  .service-card h3 .accent {
+    font-weight: 300; color: var(--electric);
+    transition: color 0.5s;
+  }
+
+  .service-desc {
+    font-size: 16px; line-height: 1.65;
+    color: var(--ink-soft); margin-bottom: 40px;
+    transition: color 0.5s;
+  }
+
+  .service-list {
+    list-style: none;
+    border-top: 1px solid var(--line);
+    transition: border 0.5s;
+  }
+
+  .service-list li {
+    font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--navy-deep);
+    padding: 16px 0; border-bottom: 1px solid var(--line);
+    transition: color 0.5s, border 0.5s;
+    display: flex; align-items: center; gap: 14px;
+  }
+
+  .service-list li::before {
+    content: '→';
+    color: var(--electric); font-size: 14px;
+    font-weight: 500;
+    transition: color 0.5s;
+  }
+
+  .service-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    margin-top: 40px; padding: 14px 28px;
+    border: 1px solid var(--navy-deep); color: var(--navy-deep);
+    text-decoration: none;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  /* ============ CTA ============ */
+  .cta {
+    background: var(--electric); color: var(--cream);
+    padding: 160px 56px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+
+  .cta::before {
+    content: '◆';
+    position: absolute; top: 40px; left: 40px;
+    font-size: 14px; color: var(--cream);
+  }
+
+  .cta::after {
+    content: '◆';
+    position: absolute; bottom: 40px; right: 40px;
+    font-size: 14px; color: var(--cream);
+  }
+
+  .cta-label {
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    margin-bottom: 40px; color: var(--cream); opacity: 0.85;
+  }
+
+  .cta h2 {
+    font-weight: 700;
+    font-size: clamp(56px, 8vw, 140px);
+    line-height: 0.88; letter-spacing: -0.04em;
+    text-transform: uppercase; margin-bottom: 60px;
+  }
+
+  .cta h2 .accent {
+    font-weight: 300; color: var(--gold);
+  }
+
+  .cta-button {
+    display: inline-flex; align-items: center; gap: 16px;
+    padding: 22px 44px;
+    background: var(--navy-deep); color: var(--cream);
+    text-decoration: none;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .cta-button:hover {
+    background: var(--cream); color: var(--navy-deep);
+    transform: translateY(-2px);
+  }
+
+  .cta-button .arrow {
+    font-size: 22px; font-weight: 300;
+    transition: transform 0.3s;
+  }
+
+  .cta-button:hover .arrow { transform: translateX(6px); }
+
+  /* ---- Contact form ---- */
+  .cta-form {
+    max-width: 620px; margin: 0 auto;
+    text-align: left;
+  }
+
+  .cta-form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-bottom: 20px;
+  }
+
+  .field { display: flex; flex-direction: column; }
+
+  .field label {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cream); opacity: 0.85; margin-bottom: 10px;
+  }
+
+  .field input,
+  .field textarea {
+    font-family: inherit; font-size: 16px;
+    color: var(--cream);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(242,239,230,0.35);
+    padding: 16px 18px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    -webkit-appearance: none; appearance: none;
+    border-radius: 0;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: rgba(242,239,230,0.45); }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--cream);
+    background: rgba(255,255,255,0.14);
+  }
+
+  .field textarea { resize: vertical; min-height: 140px; line-height: 1.5; }
+
+  .field.full { margin-bottom: 28px; }
+
+  .cta-submit {
+    display: inline-flex; align-items: center; gap: 16px;
+    padding: 22px 44px;
+    background: var(--navy-deep); color: var(--cream);
+    border: 1px solid var(--navy-deep);
+    cursor: pointer;
+    font-family: inherit; font-size: 14px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .cta-submit:hover {
+    background: var(--cream); color: var(--navy-deep);
+    border-color: var(--cream);
+    transform: translateY(-2px);
+  }
+
+  .cta-submit:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  .cta-submit .arrow { font-size: 22px; font-weight: 300; transition: transform 0.3s; }
+  .cta-submit:hover .arrow { transform: translateX(6px); }
+
+  .form-status {
+    margin-top: 24px; min-height: 22px;
+    font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cream);
+  }
+  .form-status.error { color: var(--gold); }
+
+  @media (max-width: 900px) {
+    .cta-form-row { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--navy-deep); color: var(--cream);
+    padding: 100px 56px 32px;
+  }
+
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 80px; padding-bottom: 60px;
+    border-bottom: 1px solid rgba(242, 239, 230, 0.15);
+  }
+
+  .footer-brand .logo { color: var(--cream); font-size: 28px; margin-bottom: 24px; }
+  .footer-brand p {
+    font-weight: 300; font-size: 20px; line-height: 1.5;
+    color: rgba(242, 239, 230, 0.7); max-width: 360px;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-col h5 {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 14px; }
+  .footer-col a {
+    color: rgba(242, 239, 230, 0.85); text-decoration: none;
+    font-size: 14px; transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--electric); }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(242, 239, 230, 0.5);
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 110px 24px 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+    .hero-card { position: relative; left: 0; bottom: 0; margin-top: -40px; margin-left: -24px; }
+    .section-header { grid-template-columns: 1fr; gap: 24px; margin-bottom: 56px; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .disciplines-inner { grid-template-columns: 1fr 1fr; }
+    .discipline { padding: 48px 28px; border-bottom: 1px solid rgba(242, 239, 230, 0.15) !important; }
+    .discipline:nth-child(odd) { border-right: 1px solid rgba(242, 239, 230, 0.15); }
+    .discipline:nth-child(even) { border-right: none; }
+    .discipline:nth-child(3n) { border-right: none; }
+    .portfolio-grid { grid-template-columns: 1fr; row-gap: 40px; }
+    .property-1, .property-2, .property-3, .property-4, .property-5, .property-6 { grid-column: span 1; margin-top: 0; }
+    .thesis-pillars { grid-template-columns: 1fr; gap: 40px; }
+    .thesis::before { font-size: 180px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .stats { padding: 60px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 48px 32px; border-right: none; border-bottom: 1px solid var(--navy-deep); }
+    .service-card:last-child { border-bottom: none; }
+    .cta { padding: 100px 24px; }
+    footer { padding: 60px 24px 24px; }
+    .footer-top { grid-template-columns: 1fr; gap: 40px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-mark"></span>HILEX</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#thesis">Thesis</a></li>
+    <li><a href="#work">Work With Me</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-tag">
+        <span class="dot"></span>
+        <span>Los Angeles · Est. 2014</span>
+      </div>
+      <h1>Building<br/><span class="accent">Los Angeles</span><br/>By Design.</h1>
+      <div class="hero-sub-line">
+        <span class="role">Architect</span>
+        <span class="divider"></span>
+        <span class="role">Realtor</span>
+        <span class="divider"></span>
+        <span class="role">Investor</span>
+        <span class="divider"></span>
+        <span class="role">Designer</span>
+        <span class="divider"></span>
+        <span class="role">Community Builder</span>
+      </div>
+    </div>
+
+    <div class="hero-visual-stack">
+      <div class="hero-portrait">
+        <div class="portrait-caption">
+          <div class="label">Principal</div>
+          <div class="name">Michael Abraham</div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="num">10<span class="unit">yrs</span></div>
+        <div class="desc">Investing in Los Angeles multifamily — every property a design problem worth solving.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>
+      Multifamily <span class="light">·</span> Value-Add <span class="dot"></span>
+      Architecture <span class="light">·</span> Investment <span class="dot"></span>
+      Westside LA <span class="light">·</span> West Adams <span class="dot"></span>
+      Compass <span class="light">·</span> AMRE Real Estate <span class="dot"></span>
+    </span>
+    <span>
+      Multifamily <span class="light">·</span> Value-Add <span class="dot"></span>
+      Architecture <span class="light">·</span> Investment <span class="dot"></span>
+      Westside LA <span class="light">·</span> West Adams <span class="dot"></span>
+      Compass <span class="light">·</span> AMRE Real Estate <span class="dot"></span>
+    </span>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="section-header">
+    <div>
+      <div class="section-num">01</div>
+      <div class="section-num-label">— The Practice</div>
+    </div>
+    <h2 class="section-title">I see buildings<br/>like an <span class="accent">architect.</span><br/>I underwrite like an investor.</h2>
+  </div>
+
+  <div class="about-grid">
+    <div>
+      <p class="about-lede">My approach to risk began at a drafting table — not in real estate. As an architect, I learned to commit to <span class="accent">each line.</span> Each one would shape a wall, a budget, or a structural decision that would last decades.</p>
+    </div>
+    <div class="about-body">
+      <p>I'm Michael Abraham — a Los Angeles-based real estate investor, licensed architect, designer, and Compass Realtor®. For over a decade I've been buying, repositioning, and holding multifamily property across LA, treating every asset the way I once treated a building: identify the stress points, size the beam, always allow for margin.</p>
+      <p>I bought my first property — a duplex in West Adams — and gutted it to the studs. Seven years later it remains one of my best investments and the home I'm proud to live in. That deal taught me what spreadsheets can't: persistence, design intent, and the patience to let compounding do its work.</p>
+      <p>Alongside my own portfolio, I co-founded AMRE Real Estate Group at Compass Beverly Hills — a boutique advisory serving discerning buyers, sellers, and small investors across the Westside and broader LA County. I also run Haps Club, a community and events practice rooted in the same belief that drives the buildings: place matters, and the people in it matter more.</p>
+
+      <div class="signature">
+        <div class="sig-mark">M.A.</div>
+        <div class="sig-info">
+          <div class="name">Michael Abraham</div>
+          <div class="title">Compass · DRE# 02242095</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="disciplines">
+  <div class="disciplines-inner">
+    <div class="discipline">
+      <span class="discipline-num">i.</span>
+      <h3>Archi<span class="accent">tecture</span></h3>
+      <p>A trained eye for the building you're actually buying — bones, light, flow, expansion potential, and the risks hiding behind cosmetic finishes.</p>
+    </div>
+    <div class="discipline">
+      <span class="discipline-num">ii.</span>
+      <h3>Invest<span class="accent">ment</span></h3>
+      <p>Multifamily acquisitions, TOC-eligible sites, value-add repositioning. Underwritten conservatively, held patiently, structured to survive cycles.</p>
+    </div>
+    <div class="discipline">
+      <span class="discipline-num">iii.</span>
+      <h3>Broker<span class="accent">age</span></h3>
+      <p>AMRE Real Estate Group at Compass Beverly Hills — representing investors and homeowners across the Westside and broader LA County.</p>
+    </div>
+    <div class="discipline">
+      <span class="discipline-num">iv.</span>
+      <h3>Develop<span class="accent">ment</span></h3>
+      <p>Small-lot infill, ADU additions, and ground-up where the design intent and the math line up. Built by an architect, run like a business.</p>
+    </div>
+    <div class="discipline">
+      <span class="discipline-num">v.</span>
+      <h3>De<span class="accent">sign</span></h3>
+      <p>Every project is a design problem. Plans, finishes, materials, light — chosen with the same rigor as the underwriting, because both move returns.</p>
+    </div>
+    <div class="discipline">
+      <span class="discipline-num">vi.</span>
+      <h3>Com<span class="accent">munity</span></h3>
+      <p>Through Haps Club, building the social fabric around the buildings. Buildings hold cities together; the people inside them make cities worth holding onto.</p>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="section-header">
+    <div>
+      <div class="section-num">02</div>
+      <div class="section-num-label">— Selected Work</div>
+    </div>
+    <h2 class="section-title">Property<br/>is <span class="accent">biography.</span><br/>Here's some of mine.</h2>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="property property-1">
+      <div class="property-image">
+        <div class="property-tag electric">Active Hold</div>
+        <div class="property-index">01</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>Bronson</h3>
+          <p>Crenshaw Corridor · Multifamily · R3-1-SP · TOC Tier 4</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">MF</div>
+          <div class="lbl">Asset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property property-2">
+      <div class="property-image">
+        <div class="property-tag">Active Hold</div>
+        <div class="property-index">02</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>Harcourt</h3>
+          <p>Los Angeles · Multifamily + ADU · Value-Add</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">MF+ADU</div>
+          <div class="lbl">Asset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property property-3">
+      <div class="property-image">
+        <div class="property-tag">Active Hold</div>
+        <div class="property-index">03</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>Dalton</h3>
+          <p>Los Angeles · Multifamily · Long-Term Hold</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">MF</div>
+          <div class="lbl">Asset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property property-4">
+      <div class="property-image">
+        <div class="property-tag gold">STR · Permitted</div>
+        <div class="property-index">04</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>Nueva Vista</h3>
+          <p>Palm Springs · Single-Family · Short-Term Rental</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">SFR</div>
+          <div class="lbl">Asset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property property-5">
+      <div class="property-image">
+        <div class="property-tag navy">Legacy Hold</div>
+        <div class="property-index">05</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>West Adams</h3>
+          <p>Where it all started · Duplex · Gut renovation, 2017</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">DUPLEX</div>
+          <div class="lbl">Asset</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="property property-6">
+      <div class="property-image">
+        <div class="property-tag electric">In Pipeline</div>
+        <div class="property-index">06</div>
+      </div>
+      <div class="property-meta">
+        <div class="property-info">
+          <h3>Next: MF &amp; Mixed-Use</h3>
+          <p>Sourcing · Westside &amp; Transit Corridors · 4–20 Units</p>
+        </div>
+        <div class="property-stat">
+          <div class="num">2026</div>
+          <div class="lbl">Active</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-num">10<span class="accent">+</span></div>
+      <div class="stat-label">Years Investing</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">6<span class="accent">.</span></div>
+      <div class="stat-label">Active Holdings</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">LA<span class="accent">·</span></div>
+      <div class="stat-label">Market Focus</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Holding Horizon</div>
+    </div>
+  </div>
+</section>
+
+<section class="thesis" id="thesis">
+  <div class="section-header">
+    <div>
+      <div class="section-num">03</div>
+      <div class="section-num-label">— Investment Thesis</div>
+    </div>
+    <h2 class="section-title">Three things<br/>I believe about<br/>LA <span class="accent">real estate.</span></h2>
+  </div>
+
+  <div class="thesis-quote">
+    <span class="mark">"</span>I learned to evaluate risk the way I would size a beam — <span class="accent">always allowing for margin.</span><span class="mark">"</span>
+  </div>
+
+  <div class="thesis-pillars">
+    <div class="pillar">
+      <div class="pillar-num">Pillar i.</div>
+      <h4>The land does the <span class="accent">work.</span></h4>
+      <p>Buildings depreciate. Land in well-located, transit-served LA neighborhoods does not. I underwrite for what the dirt can become over a decade — not what the structure pencils to today.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar ii.</div>
+      <h4>Design is a return <span class="accent">driver.</span></h4>
+      <p>An architect's intervention — light, layout, materials — moves rents and resale in ways spreadsheets don't predict. Most operators leave this on the table. I don't.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">Pillar iii.</div>
+      <h4>Small is <span class="accent">durable.</span></h4>
+      <p>2 to 20 units. Locally managed. Conservatively financed. Held through cycles. The unglamorous middle of the market is where the math actually works.</p>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-header">
+    <div>
+      <div class="section-num">04</div>
+      <div class="section-num-label">— Engage</div>
+    </div>
+    <h2 class="section-title">Two ways<br/>we might <span class="accent">work together.</span></h2>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">i. As your agent.</div>
+      <h3>Buy. Sell. <span class="accent">Position.</span></h3>
+      <p class="service-desc">Through AMRE Real Estate Group at Compass Beverly Hills, I represent buyers, sellers, and small investors across LA County — bringing the same analytical rigor I apply to my own deals.</p>
+      <ul class="service-list">
+        <li>Buyer Representation · Westside &amp; Beach Cities</li>
+        <li>Listing Representation · Architect-Led Marketing</li>
+        <li>Investment Property Acquisition &amp; Underwriting</li>
+        <li>1031 Exchange &amp; Portfolio Strategy</li>
+      </ul>
+      <a href="#contact" class="service-cta">Hire Me <span>→</span></a>
+    </div>
+
+    <div class="service-card">
+      <div class="service-num">ii. As your partner.</div>
+      <h3>Source. Capitalize. <span class="accent">Build.</span></h3>
+      <p class="service-desc">I co-invest in small multifamily and infill opportunities in Los Angeles. If you have a deal that fits the thesis — or capital looking for one — there are ways to work together beyond a transaction.</p>
+      <ul class="service-list">
+        <li>Joint Ventures · Multifamily 2–20 Units</li>
+        <li>Off-Market Sourcing &amp; Underwriting</li>
+        <li>Design-Led Repositioning &amp; Entitlements</li>
+        <li>Selective Ground-Up Development</li>
+      </ul>
+      <a href="#contact" class="service-cta">Partner Up <span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="cta-label">— Get in touch —</div>
+  <h2>Have a building,<br/>a block, or a<br/><span class="accent">bigger idea?</span></h2>
+
+  <form class="cta-form" id="contact-form" novalidate>
+    <div class="cta-form-row">
+      <div class="field">
+        <label for="first_name">First Name</label>
+        <input type="text" id="first_name" name="first_name" placeholder="First name" required />
+      </div>
+      <div class="field">
+        <label for="last_name">Last Name</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Last name" required />
+      </div>
+    </div>
+
+    <!-- OPTIONAL reply path: uncomment this block (and the matching EmailJS template field)
+         if you want to be able to reply to people who write in.
+    <div class="field full">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" />
+    </div>
+    -->
+
+    <div class="field full">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Tell me about the building, the block, or the bigger idea..." required></textarea>
+    </div>
+
+    <button type="submit" class="cta-submit" id="submit-btn">
+      Send Message
+      <span class="arrow">→</span>
+    </button>
+
+    <div class="form-status" id="form-status"></div>
+  </form>
+</section>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ====== EmailJS configuration — fill these three values ======
+  // Get them at https://dashboard.emailjs.com  (the PUBLIC key is safe in client code)
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+  // =============================================================
+
+  (function () {
+    if (window.emailjs && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+
+    const form = document.getElementById("contact-form");
+    const btn = document.getElementById("submit-btn");
+    const status = document.getElementById("form-status");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      status.className = "form-status";
+      status.textContent = "";
+
+      const firstName = document.getElementById("first_name").value.trim();
+      const lastName = document.getElementById("last_name").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!firstName || !lastName || !message) {
+        status.className = "form-status error";
+        status.textContent = "Please fill in all fields.";
+        return;
+      }
+
+      if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+        status.className = "form-status error";
+        status.textContent = "Form not yet configured — add your EmailJS keys.";
+        return;
+      }
+
+      btn.disabled = true;
+      const original = btn.querySelector(".arrow") ? "Send Message" : btn.textContent;
+      btn.firstChild.textContent = "Sending… ";
+
+      const params = {
+        first_name: firstName,
+        last_name: lastName,
+        full_name: firstName + " " + lastName,
+        message: message
+      };
+
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+        .then(function () {
+          form.reset();
+          status.className = "form-status";
+          status.textContent = "Thanks — your message is on its way.";
+          btn.disabled = false;
+          btn.firstChild.textContent = "Send Message ";
+        })
+        .catch(function () {
+          status.className = "form-status error";
+          status.textContent = "Something went wrong. Please email michael@hilex.io directly.";
+          btn.disabled = false;
+          btn.firstChild.textContent = "Send Message ";
+        });
+    });
+  })();
+</script>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-mark"></span>HILEX</div>
+      <p>The personal investment, development, and brokerage practice of Michael Abraham. Los Angeles. The long view.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Site</h5>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#thesis">Thesis</a></li>
+        <li><a href="#work">Work With Me</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Brokerage</h5>
+      <ul>
+        <li><a href="https://amre.group" target="_blank">AMRE Real Estate Group</a></li>
+        <li><a href="#">Compass Beverly Hills</a></li>
+        <li><a href="#">9454 Wilshire Blvd</a></li>
+        <li><a href="#">Beverly Hills, CA 90212</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="mailto:michael@hilex.io">michael@hilex.io</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">YouTube</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Hilex</div>
+    <div>Michael Abraham · DRE# 02242095</div>
+    <div>Last updated May 19, 2026 at 10:18 PM PT</div>
+  </div>
+</footer>
+
+</body>
+</html>
