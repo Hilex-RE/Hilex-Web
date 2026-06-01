@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harcourt Unit #3 — ADU Conversion Expense Tracker</title>
+<style>
+:root{
+  --white:#FFFFFF; --gray:#F5F5F7; --ink:#1D1D1F; --secondary:#6E6E73;
+  --muted:#86868B; --hairline:#D2D2D7; --blue:#0071E3; --red:#E30000;
+  --green:#248A3D; --amber:#B25000;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Monaco,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.47}
+
+/* GATE */
+#gate{position:fixed;inset:0;background:var(--white);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s ease}
+#gate.hidden{opacity:0;pointer-events:none}
+.gate-brand{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:48px;color:var(--ink)}
+.gate-brand span{color:var(--muted);font-weight:400}
+.gate-title{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px;text-align:center}
+.gate-sub{font-size:17px;color:var(--secondary);margin-bottom:36px;text-align:center}
+.gate-form{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
+#code{font-family:var(--font);font-size:17px;padding:14px 18px;border:1px solid var(--hairline);border-radius:12px;outline:none;text-align:center;transition:border-color .2s}
+#code:focus{border-color:var(--blue)}
+.gate-form.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.gate-btn{font-family:var(--font);font-size:17px;font-weight:500;color:#fff;background:var(--blue);border:none;border-radius:980px;padding:14px;cursor:pointer;transition:background .2s}
+.gate-btn:hover{background:#0077ed}
+.gate-err{color:var(--red);font-size:14px;text-align:center;min-height:18px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hairline)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.nav-brand span{color:var(--muted);font-weight:400}
+.nav-meta{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--muted)}
+.status-pill{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:500}
+.status-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(36,138,61,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(36,138,61,.45)}70%{box-shadow:0 0 0 7px rgba(36,138,61,0)}100%{box-shadow:0 0 0 0 rgba(36,138,61,0)}}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:96px 24px 72px;text-align:center}
+.eyebrow{font-size:14px;font-weight:600;color:var(--blue);letter-spacing:.01em;margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-size:clamp(40px,7vw,72px);font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-bottom:18px}
+.hero-sub{font-size:clamp(17px,2.5vw,21px);color:var(--secondary);max-width:600px;margin:0 auto 44px;font-weight:400}
+.stats{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.stat{background:var(--gray);border-radius:18px;padding:22px 30px;min-width:150px}
+.stat-val{font-size:32px;font-weight:600;letter-spacing:-.02em}
+.stat-val.paid{color:var(--green)}
+.stat-val.rem{color:var(--amber)}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* PROGRESS */
+.progress-wrap{max-width:1100px;margin:0 auto;padding:0 24px 64px}
+.progress-card{background:var(--ink);color:#fff;border-radius:24px;padding:40px}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.progress-top h3{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.progress-pct{font-size:40px;font-weight:600;letter-spacing:-.02em}
+.bar{height:14px;background:rgba(255,255,255,.16);border-radius:980px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#34c759,#248A3D);border-radius:980px;transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.progress-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px;font-size:14px;color:rgba(255,255,255,.7)}
+.progress-foot b{color:#fff;font-weight:600}
+
+/* SECTION */
+section.block{padding:72px 0;border-top:1px solid var(--hairline)}
+section.block.alt{background:var(--gray)}
+.block-in{max-width:1100px;margin:0 auto;padding:0 24px}
+.block-head{margin-bottom:36px}
+.block-head h2{font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-.02em;margin-bottom:8px}
+.block-head p{font-size:17px;color:var(--secondary)}
+
+/* TABLE-AS-CARDS */
+.ledger{display:flex;flex-direction:column;gap:1px;background:var(--hairline);border-radius:18px;overflow:hidden;border:1px solid var(--hairline)}
+.lrow{display:grid;grid-template-columns:1.6fr .9fr .9fr .9fr .8fr;gap:12px;background:var(--white);padding:18px 22px;align-items:center}
+.lrow.head{background:var(--gray);font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:600}
+.lname{font-weight:500;font-size:15px}
+.lsub{font-size:12px;color:var(--muted);margin-top:2px;font-weight:400}
+.lnum{font-family:var(--mono);font-size:14px;text-align:right}
+.lnum.paid{color:var(--green)}
+.lnum.rem{color:var(--secondary)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:4px 10px;border-radius:980px;text-transform:uppercase;letter-spacing:.02em;text-align:center}
+.tag.prog{background:rgba(0,113,227,.12);color:var(--blue)}
+.tag.done{background:rgba(36,138,61,.12);color:var(--green)}
+.tag.none{background:rgba(134,134,139,.14);color:var(--secondary)}
+.tag.order{background:rgba(178,80,0,.12);color:var(--amber)}
+.minibar{height:6px;background:var(--hairline);border-radius:980px;overflow:hidden;margin-top:8px}
+.minibar-fill{height:100%;background:var(--blue);border-radius:980px}
+.minibar-fill.g{background:var(--green)}
+.subtotal{display:grid;grid-template-columns:1.6fr .9fr .9fr .9fr .8fr;gap:12px;padding:16px 22px;background:#fafafa;font-weight:600;font-size:14px;align-items:center;border-top:1px solid var(--hairline)}
+.subtotal .lnum{font-weight:600}
+
+/* PAYMENTS GRID */
+.pay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.pay-card{background:var(--white);border:1px solid var(--hairline);border-radius:18px;padding:22px}
+.pay-card .amt{font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--green)}
+.pay-card .who{font-size:15px;font-weight:500;margin-top:6px}
+.pay-card .meta{font-size:13px;color:var(--muted);margin-top:8px;display:flex;justify-content:space-between}
+.pay-card .desc{font-size:13px;color:var(--secondary);margin-top:6px}
+
+/* CATEGORY DONUT-ish bars */
+.cat-list{display:flex;flex-direction:column;gap:18px}
+.cat-row .cat-top{display:flex;justify-content:space-between;font-size:15px;margin-bottom:8px}
+.cat-row .cat-top b{font-weight:600}
+.cat-row .cat-amt{font-family:var(--mono);font-size:14px;color:var(--secondary)}
+.cat-bar{height:10px;background:var(--hairline);border-radius:980px;overflow:hidden}
+.cat-bar-fill{height:100%;border-radius:980px;transition:width 1s ease}
+
+footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);background:var(--gray)}
+.foot-brand{font-size:15px;font-weight:600;margin-bottom:8px}
+.foot-brand span{color:var(--muted);font-weight:400}
+.foot-note{font-size:12px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.6}
+
+@media(max-width:860px){
+  .lrow,.subtotal{grid-template-columns:1.4fr 1fr 1fr;font-size:13px}
+  .lrow .col-rem,.lrow .col-stat,.subtotal .col-rem,.subtotal .col-stat{display:none}
+  .lrow.head .col-rem,.lrow.head .col-stat{display:none}
+}
+@media(max-width:640px){
+  .nav-meta{display:none}
+  .hero{padding:64px 20px 48px}
+  section.block{padding:56px 0}
+  .progress-card{padding:28px}
+}
+@media print{
+  #gate{display:none!important}
+  nav{position:static}
+  .progress-card,.hero h1{color:var(--ink)!important}
+  .progress-card{background:#fff!important;border:1px solid var(--hairline)}
+  section.block{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+  <div class="gate-brand">Hilex <span>· Harcourt Unit #3</span></div>
+  <div class="gate-title">Private Dashboard</div>
+  <div class="gate-sub">Enter your access code to view the project</div>
+  <div class="gate-form" id="gateForm">
+    <input type="password" id="code" placeholder="Access code" autocomplete="off" autofocus>
+    <button class="gate-btn" onclick="checkCode()">View Dashboard</button>
+    <div class="gate-err" id="gateErr"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand"><a href="../" style="text-decoration:none;color:inherit">Hilex</a> <span>· Harcourt #3</span></div>
+    <div class="nav-meta">
+      <span>ADU Garage Conversion</span>
+      <span id="updated"></span>
+      <span class="status-pill" style="color:var(--amber)">Quoting</span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">ADU Garage Conversion · Unit #3</div>
+  <h1>Harcourt Unit&nbsp;#3</h1>
+  <p class="hero-sub">2810 &amp; 2808 S Harcourt Ave, Los Angeles, CA 90016 · Detached garage-to-ADU conversion at the Harcourt duplex. Live expense tracking from first vendor quotes.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-val">$55,160</div><div class="stat-lbl">Total Budget</div></div>
+    <div class="stat"><div class="stat-val paid">$0</div><div class="stat-lbl">Paid to Date</div></div>
+    <div class="stat"><div class="stat-val rem">$55,160</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">0%</div><div class="stat-lbl">Complete</div></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-card">
+    <div class="progress-top">
+      <h3>Budget Consumed</h3>
+      <div class="progress-pct" id="pct">0%</div>
+    </div>
+    <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+    <div class="progress-foot">
+      <span>Paid <b>$0</b> of <b>$55,160</b></span>
+      <span>Remaining <b>$55,160</b></span>
+      <span>+10% contingency reserve: <b>$5,516</b></span>
+    </div>
+  </div>
+</div>
+
+<!-- RECONCILIATION NOTE -->
+<div class="progress-wrap" style="padding-top:0">
+  <div style="background:var(--gray);border:1px solid var(--hairline);border-radius:18px;padding:22px 26px">
+    <div style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:10px">Quote Reconciliation — 3 vendor bids received</div>
+    <div style="font-size:14px;color:var(--secondary);line-height:1.6">
+      Headline budget reflects the master $55,160 estimate. Incoming actual quotes net to roughly plan:
+      <b style="color:var(--green)">New Century HVAC at $3,850</b> is favorable vs the $5,900 budgeted for the mini-split (≈$2,050 under).
+      <b style="color:var(--amber)">Cabinet City materials at $10,101</b> run ≈$2,050 over the ~$8,050 budgeted for cabinets, counter, sink &amp; handles.
+      <b>Dream Kitchen Builder install at $3,411</b> should be netted against the $20,000 GC line (cabinet/counter install was nominally inside it) — verify against the final GC bid so it is not double-counted.
+    </div>
+  </div>
+</div>
+
+<!-- CONTRACTORS -->
+<section class="block">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Contractors &amp; Labor</h2>
+      <p>Trade labor and install bids. New Century HVAC, Cabinet City install (Dream Kitchen Builder) quoted; GC, plumbing &amp; electrical are budget estimates pending bid.</p>
+    </div>
+    <div class="ledger" id="contractorLedger">
+      <div class="lrow head">
+        <div>Contractor / Scope</div>
+        <div class="lnum">Estimate</div>
+        <div class="lnum">Paid</div>
+        <div class="lnum col-rem">Remaining</div>
+        <div class="col-stat">Status</div>
+      </div>
+    </div>
+    <div class="subtotal">
+      <div>Contractors Subtotal (quoted + budgeted)</div>
+      <div class="lnum">$35,506</div>
+      <div class="lnum paid">$0</div>
+      <div class="lnum col-rem">$35,506</div>
+      <div class="col-stat"><span class="tag none">0% paid</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FF&E -->
+<section class="block alt">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Materials, Fixtures &amp; Equipment</h2>
+      <p>Cabinet City kitchen package quoted (Slim White Oak Shaker + New Taj Mahal quartz). Bath, flooring, doors, lighting &amp; paint from the master sourcing budget.</p>
+    </div>
+    <div class="ledger" id="ffeLedger">
+      <div class="lrow head">
+        <div>Item</div>
+        <div class="lnum">Budget</div>
+        <div class="lnum">Spent</div>
+        <div class="lnum col-rem">Remaining</div>
+        <div class="col-stat">Status</div>
+      </div>
+    </div>
+    <div class="subtotal">
+      <div>Materials Subtotal</div>
+      <div class="lnum">$23,066</div>
+      <div class="lnum paid">$0</div>
+      <div class="lnum col-rem">$23,066</div>
+      <div class="col-stat"><span class="tag none">0% spent</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT LEDGER -->
+<section class="block">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Payment Ledger</h2>
+      <p>No payments disbursed yet — project is at the quoting stage. Total disbursed to date: <b>$0</b>.</p>
+    </div>
+    <div class="pay-grid" id="payGrid"></div>
+    <div id="payEmpty" style="background:var(--white);border:1px dashed var(--hairline);border-radius:18px;padding:36px;text-align:center;color:var(--muted);font-size:15px">No payments recorded. Deposits will appear here once the first vendor draw is made.</div>
+  </div>
+</section>
+
+<!-- CATEGORY BREAKDOWN -->
+<section class="block alt">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Where the Money Goes</h2>
+      <p>Total budget by category — $55,160 across labor, kitchen, systems &amp; finishes.</p>
+    </div>
+    <div class="cat-list" id="catList"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Hilex <span>· Harcourt Unit #3 (ADU)</span></div>
+  <p class="foot-note">Private financial dashboard for Michael Abraham. ADU garage conversion at 2810 &amp; 2808 S Harcourt Ave. Vendor quotes on file: Cabinet City / Dream Kitchen Builder (kitchen), New Century HVAC (mini-split). Figures are confidential and reconciled from vendor estimates. Contingency reserve of 10% ($5,516) held above the $55,160 base budget.</p>
+</footer>
+
+<script>
+const ACCESS_CODE = "Harcourt#2026";
+
+function checkCode(){
+  const v = document.getElementById('code').value.trim();
+  if(v === ACCESS_CODE){
+    sessionStorage.setItem('harcourt_auth','1');
+    reveal();
+  } else {
+    const f = document.getElementById('gateForm');
+    f.classList.add('shake');
+    document.getElementById('gateErr').textContent = "Incorrect code. Try again.";
+    setTimeout(()=>f.classList.remove('shake'),400);
+  }
+}
+function reveal(){
+  document.getElementById('gate').classList.add('hidden');
+  setTimeout(initDash,300);
+}
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')checkCode()});
+if(sessionStorage.getItem('harcourt_auth')==='1'){document.getElementById('gate').classList.add('hidden');}
+
+// DATA
+const contractors = [
+  {name:"General Contractor / Trades",sub:"Framing, drywall, tile set, finish carpentry, paint — mid estimate, verify with GC bid",est:20000,paid:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Plumbing — Rough-in",sub:"Supply / DWV for bath + kitchen",est:5000,paid:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Electrical",sub:"New ADU subpanel + outlets / switches / GFCI",est:3000,paid:0,stat:"none",statTxt:"Budgeted"},
+  {name:"New Century HVAC",sub:"Daikin 12K BTU mini-split — full install (INV2365) · Lic #1079491",est:3850,paid:0,stat:"order",statTxt:"Quoted"},
+  {name:"Dream Kitchen Builder",sub:"Cabinet + countertop install (paired w/ Cabinet City) · Lic #940352",est:3411,paid:0,stat:"order",statTxt:"Quoted"},
+  {name:"Finishes & Trim",sub:"5.25\" baseboard + door/window casing",est:245,paid:0,stat:"none",statTxt:"Budgeted"},
+];
+const ffe = [
+  {name:"Cabinet City — Kitchen Package",sub:"Slim White Oak Shaker (frameless) + New Taj Mahal quartz, sink & Euro handles · incl. 9.75% tax",bud:10101,spent:0,stat:"order",statTxt:"Quoted"},
+  {name:"Kitchen Appliances",sub:"30\" fridge · 30\" cooktop · 30\" MW range hood · no dishwasher",bud:1980,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Kitchen Backsplash + Faucets",sub:"Zia zellige backsplash · Kohler Purist main + prep faucet · prep sink",bud:1485,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Bathroom Fixtures",sub:"Toilet, shower pan + glass, vanity, wall/floor tile, faucets, fan, light",bud:4145,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Flooring",sub:"LVP MaxCore Pro 20-mil + underlayment (~250 sf)",bud:1100,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Doors & Windows",sub:"Entry, bath & closet doors + locksets · 2× egress windows (Title 24)",bud:2880,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Lighting",sub:"6\" recessed LED ×10 + exterior sconces ×2",bud:490,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Tankless Water Heater",sub:"Rheem electric 240V, 13 kW",bud:550,spent:0,stat:"none",statTxt:"Budgeted"},
+  {name:"Paint",sub:"Benjamin Moore Linen White OC-146 + primer + trim",bud:335,spent:0,stat:"none",statTxt:"Budgeted"},
+];
+const payments = [];
+const categories = [
+  {name:"General Contractor / Trades Labor",amt:20000,color:"#0071E3"},
+  {name:"Kitchen — Cabinets, Quartz, Appliances, Fixtures",amt:13566,color:"#ff9500"},
+  {name:"Plumbing — Rough-in + Tankless WH",amt:5550,color:"#248A3D"},
+  {name:"Doors, Windows, Flooring, Lighting & Paint",amt:5050,color:"#5856d6"},
+  {name:"Bathroom — Fixtures & Tile",amt:4145,color:"#E30000"},
+  {name:"HVAC — Daikin Mini-Split, Installed",amt:3850,color:"#B25000"},
+  {name:"Electrical — Subpanel + Devices",amt:3000,color:"#34c759"},
+];
+
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+function initDash(){
+  document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  setTimeout(()=>{document.getElementById('barFill').style.width="0%";},200);
+
+  const cl=document.getElementById('contractorLedger');
+  contractors.forEach(c=>{
+    const rem=c.est-c.paid;const p=c.est?Math.min(100,c.paid/c.est*100):0;
+    const row=document.createElement('div');row.className='lrow';
+    row.innerHTML=`<div><div class="lname">${c.name}</div><div class="lsub">${c.sub}</div>
+      <div class="minibar"><div class="minibar-fill ${c.stat==='done'?'g':''}" style="width:${p}%"></div></div></div>
+      <div class="lnum">${fmt(c.est)}</div>
+      <div class="lnum paid">${c.paid?fmt(c.paid):'—'}</div>
+      <div class="lnum rem col-rem">${fmt(rem)}</div>
+      <div class="col-stat"><span class="tag ${c.stat}">${c.statTxt}</span></div>`;
+    cl.appendChild(row);
+  });
+
+  const fl=document.getElementById('ffeLedger');
+  ffe.forEach(c=>{
+    const row=document.createElement('div');row.className='lrow';
+    row.innerHTML=`<div><div class="lname">${c.name}</div><div class="lsub">${c.sub||''}</div></div>
+      <div class="lnum">${c.bud?fmt(c.bud):'TBD'}</div>
+      <div class="lnum paid">${c.spent?fmt(c.spent):'—'}</div>
+      <div class="lnum rem col-rem">${c.bud&&c.spent?fmt(Math.max(0,c.bud-c.spent)):(c.bud?fmt(c.bud):'—')}</div>
+      <div class="col-stat"><span class="tag ${c.stat}">${c.statTxt}</span></div>`;
+    fl.appendChild(row);
+  });
+
+  const pg=document.getElementById('payGrid');
+  if(payments.length===0){pg.style.display='none';}
+  else{document.getElementById('payEmpty').style.display='none';}
+  payments.forEach(p=>{
+    const card=document.createElement('div');card.className='pay-card';
+    card.innerHTML=`<div class="amt">${fmt2(p.amt)}</div>
+      <div class="who">${p.who}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="meta"><span>${p.method}</span><span>${p.date}</span></div>`;
+    pg.appendChild(card);
+  });
+
+  const max=Math.max(...categories.map(c=>c.amt));
+  const cat=document.getElementById('catList');
+  categories.forEach(c=>{
+    const row=document.createElement('div');row.className='cat-row';
+    row.innerHTML=`<div class="cat-top"><b>${c.name}</b><span class="cat-amt">${fmt(c.amt)}</span></div>
+      <div class="cat-bar"><div class="cat-bar-fill" style="width:0%;background:${c.color}"></div></div>`;
+    cat.appendChild(row);
+    setTimeout(()=>{row.querySelector('.cat-bar-fill').style.width=(c.amt/max*100)+"%";},300);
+  });
+}
+if(sessionStorage.getItem('harcourt_auth')==='1'){initDash();}
+</script>
+</body>
+</html>
