@@ -122,6 +122,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-
 .tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:980px;text-transform:uppercase;letter-spacing:.02em}
 .tag.own{background:rgba(0,113,227,.1);color:var(--blue)}
 .tag.half{background:rgba(123,91,214,.12);color:var(--purple)}
+.tag.proj{background:rgba(178,80,0,.12);color:var(--amber)}
 
 .note{max-width:1100px;margin:0 auto;padding:8px 24px 0;font-size:13px;color:var(--muted);line-height:1.6}
 
@@ -194,7 +195,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     <div class="cards">
 
       <button class="cat" onclick="show('realestate')">
-        <div class="cat-top"><div><div class="cat-name">Real Estate</div><div class="cat-meta">3 properties · your share</div></div>
+        <div class="cat-top"><div><div class="cat-name">Real Estate</div><div class="cat-meta">4 properties · 1 in renovation</div></div>
         <div class="cat-icon" style="background:rgba(0,113,227,.1)">🏠</div></div>
         <div class="cat-val">$2,365,000</div>
         <div class="cat-bar"><div class="cat-bar-fill" data-w="100" style="background:linear-gradient(90deg,#4a9eff,#0071E3)"></div></div>
@@ -281,7 +282,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     <div class="eyebrow">Assets · Real Estate</div>
     <h2>Real Estate</h2>
     <div class="dval">$1,232,681 <span style="font-size:.5em;color:var(--muted);font-weight:500">equity</span></div>
-    <div class="dsub">$2,365,000 value · $1,132,319 debt · your ownership share</div>
+    <div class="dsub">$2,365,000 value · $1,132,319 debt · your ownership share · plus 2640 Bronson (projected, below)</div>
   </div>
   <div class="wrap">
     <div class="line">
@@ -299,7 +300,11 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
       <div class="line-bar"><div class="line-bar-fill" style="width:45.6%"></div></div>
       <div class="line-grid"><div class="lg">Value (share)<b>$400,000</b></div><div class="lg">Loan (share)<b class="lo">$217,697</b></div><div class="lg">Equity<b class="eq">$182,303</b></div></div>
     </div>
-    <div class="note">Full-property values: Harcourt $1.30M, Dalton $1.33M, Nueva Vista $800K. Dalton and Nueva Vista are held 50/50; figures above reflect your share. Equity bars show share of value held as equity vs. debt.</div>
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">2640 S Bronson Ave <span class="tag half">50% share</span> <span class="tag proj">Post-reno · projected</span></div><div class="line-sub">Acquired Mar 19, 2026 · currently in renovation</div></div><div class="line-val">$600,000</div></div>
+      <div class="line-grid"><div class="lg">ARV (full)<b>$1,200,000</b></div><div class="lg">Value (share)<b>$600,000</b></div><div class="lg">Loan (share)<b class="lo">Pending</b></div><div class="lg">Equity<b>Pending</b></div></div>
+    </div>
+    <div class="note">Full-property values: Harcourt $1.30M, Dalton $1.33M, Nueva Vista $800K. Dalton, Nueva Vista and Bronson are held 50/50; figures above reflect your share. <b>Bronson is a projected post-renovation value ($1.2M ARV → $600K your share)</b> — its equity and the net-worth total update once you provide the current loan balance. Renovation spend (~$98K budget) is tracked on the Bronson expense dashboard.</div>
   </div>
 </div>
 
@@ -430,17 +435,20 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 </footer>
 
 <script>
-const ACCESS_CODE = "Hilex##2026";
+// SEPARATE credential from the property dashboards — a Bronson/portfolio
+// login (hilex_auth) does NOT unlock this page. Own code + own session key.
+const ACCESS_CODE = "Networth##2026";
+const NW_KEY = "hilex_nw_auth";
 function checkCode(){
   const v=document.getElementById('code').value.trim();
-  if(v===ACCESS_CODE){sessionStorage.setItem('hilex_auth','1');reveal();}
+  if(v===ACCESS_CODE){sessionStorage.setItem(NW_KEY,'1');reveal();}
   else{const f=document.getElementById('gateForm');f.classList.add('shake');
     document.getElementById('gateErr').textContent="Incorrect code. Try again.";
     setTimeout(()=>f.classList.remove('shake'),400);}
 }
 function reveal(){document.getElementById('gate').classList.add('hidden');setTimeout(init,300);}
 document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')checkCode()});
-if(sessionStorage.getItem('hilex_auth')==='1'){document.getElementById('gate').classList.add('hidden');}
+if(sessionStorage.getItem(NW_KEY)==='1'){document.getElementById('gate').classList.add('hidden');}
 
 function show(id){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -457,7 +465,7 @@ function init(){
   document.getElementById('updated').textContent="Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   animateBars();
 }
-if(sessionStorage.getItem('hilex_auth')==='1'){init();}
+if(sessionStorage.getItem(NW_KEY)==='1'){init();}
 </script>
 </body>
 </html>
