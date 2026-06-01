@@ -167,9 +167,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
     <div class="stat"><div class="stat-val">$98,234</div><div class="stat-lbl">Total Budget</div></div>
-    <div class="stat"><div class="stat-val paid">$41,634</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$56,600</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">42%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val paid">$46,736</div><div class="stat-lbl">Paid to Date</div></div>
+    <div class="stat"><div class="stat-val rem">$51,498</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">48%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -178,12 +178,12 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">42%</div>
+      <div class="progress-pct" id="pct">48%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$41,634</b> of <b>$98,234</b></span>
-      <span>Remaining <b>$56,600</b></span>
+      <span>Paid <b>$46,736</b> of <b>$98,234</b></span>
+      <span>Remaining <b>$51,498</b></span>
       <span>+10% contingency reserve: <b>$9,823</b></span>
     </div>
   </div>
@@ -234,7 +234,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     <div class="subtotal">
       <div>FF&amp;E Subtotal (tracked)</div>
       <div class="lnum">$5,834</div>
-      <div class="lnum paid">$10,383</div>
+      <div class="lnum paid">$15,486</div>
       <div class="lnum col-rem">—</div>
       <div class="col-stat"><span class="tag prog">in progress</span></div>
     </div>
@@ -330,6 +330,33 @@ const payments = [
   {amt:317.34,who:"Wayfair",desc:"Shower fixture",method:"Michael AMEX",date:"May 13"},
   {amt:7662.72,who:"Elit Tile",desc:"Tile order",method:"Michael AMEX",date:"May 21"},
   {amt:15000,who:"Expression in Tile",desc:"Unit rehab — second draw",method:"Check",date:"May 25"},
+  {amt:245.35,who:"DeerValley",desc:"Kitchen sink — Fireclay DV-1K509",method:"Michael AMEX",date:"May 25"},
+  {amt:247.08,who:"Birch Lane",desc:"Outdoor wall light — Caden 2-Light Black",method:"Michael AMEX",date:"May 23"},
+  {amt:791.29,who:"Wayfair",desc:"Bathroom vanity 24\u2019\u2019 — Bilroy Black/Stone",method:"Michael AMEX",date:"May 23"},
+  {amt:146.56,who:"Wayfair",desc:"Wall sconces — Eugenie 2-Light Brushed Gold x2",method:"Michael AMEX",date:"May 23"},
+  {amt:111.93,who:"Wayfair",desc:"Bathroom faucet — Single hole Matte Black",method:"Michael AMEX",date:"May 23"},
+  {amt:128.41,who:"Wayfair",desc:"Vanity light — Rooks 3-Light Satin Brass",method:"Michael AMEX",date:"May 23"},
+  {amt:59.25,who:"Wayfair",desc:"Bathroom mirror 36x24 — Yazlen Gold",method:"Michael AMEX",date:"May 23"},
+  {amt:198.64,who:"Wayfair",desc:"Bathroom faucet — Nicoli Widespread Matte Black",method:"Michael AMEX",date:"May 23"},
+  {amt:42.54,who:"Wayfair",desc:"Door stops — Napier Matte Black x10",method:"Michael AMEX",date:"May 23"},
+  {amt:237.06,who:"Wayfair",desc:"Flush mount lights — Savita White/Gold x2",method:"Michael AMEX",date:"May 23"},
+  {amt:227.62,who:"Wayfair",desc:"Cabinet hardware — Kent bar pulls + knobs x24",method:"Michael AMEX",date:"May 23"},
+  {amt:295.23,who:"Wayfair",desc:"Pendant — Calcott Chalk White Dome",method:"Michael AMEX",date:"May 23"},
+  {amt:127.31,who:"Wayfair",desc:"Flush mount — Calcott Chalk White",method:"Michael AMEX",date:"May 23"},
+  {amt:130.59,who:"Wayfair",desc:"Pendant — Calcott Terra Cotta Cylinder",method:"Michael AMEX",date:"May 23"},
+  {amt:146.08,who:"Home Depot",desc:"Medicine cabinet — TEHOME Arched Recessed Black",method:"Michael AMEX",date:"May 23"},
+  {amt:196.45,who:"Home Depot",desc:"Garbage disposal — InSinkErator Badger 5XP 3/4HP",method:"Michael AMEX",date:"May 23"},
+  {amt:18.63,who:"Home Depot",desc:"Disposal power cord kit CRD-00",method:"Michael AMEX",date:"May 23"},
+  {amt:119.63,who:"Home Depot",desc:"Disposal air switch kit STS-OO Chrome",method:"Michael AMEX",date:"May 23"},
+  {amt:25.71,who:"Home Depot",desc:"Disposal air switch button — Matte Black",method:"Michael AMEX",date:"May 23"},
+  {amt:329.68,who:"Pottery Barn",desc:"Sansome mailbox Bronze x2",method:"Michael AMEX",date:"May 23"},
+  {amt:154.80,who:"Vakkerlight",desc:"Flush mount — Cimona Gold 19.7in Warm Light",method:"Michael AMEX",date:"May 23"},
+  {amt:43.94,who:"Kohler",desc:"Kohler order APGH3A",method:"Michael AMEX",date:"May 23"},
+  {amt:341.58,who:"Lowe\'s",desc:"Bath fans — Aero Pure 90CFM Humidity Sensor x2",method:"Michael AMEX",date:"May 23"},
+  {amt:511.78,who:"Lowe\'s",desc:"Toilets — DeerValley Ally 1.6GPF Dual Flush x2",method:"Michael AMEX",date:"May 23"},
+  {amt:42.78,who:"Lowe\'s",desc:"Door handle — Kwikset Henley Matte Black keyed entry",method:"Michael AMEX",date:"May 23"},
+  {amt:152.55,who:"Lowe\'s",desc:"Door handleset + deadbolt — Kwikset Henley Matte Black",method:"Michael AMEX",date:"May 23"},
+  {amt:30.16,who:"Lowe\'s",desc:"Deadbolt — Kwikset 660 Matte Black",method:"Michael AMEX",date:"May 23"},
 ];
 const categories = [
   {name:"Expression in Tile (construction)",amt:55000,color:"#0071E3"},
@@ -345,7 +372,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="42%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="48%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
