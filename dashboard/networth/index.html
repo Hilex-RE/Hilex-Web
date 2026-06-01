@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hilex — Net Worth</title>
+<style>
+:root{
+  --white:#FFFFFF; --gray:#F5F5F7; --ink:#1D1D1F; --secondary:#6E6E73;
+  --muted:#86868B; --hairline:#D2D2D7; --blue:#0071E3; --red:#E30000;
+  --green:#248A3D; --amber:#B25000;
+  --purple:#7B5BD6; --teal:#0F9DA6; --orange:#D9760F; --slate:#5A6472;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Monaco,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.47}
+
+/* GATE */
+#gate{position:fixed;inset:0;background:var(--white);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s ease}
+#gate.hidden{opacity:0;pointer-events:none}
+.gate-brand{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:48px;color:var(--ink)}
+.gate-brand span{color:var(--muted);font-weight:400}
+.gate-title{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px;text-align:center}
+.gate-sub{font-size:17px;color:var(--secondary);margin-bottom:36px;text-align:center}
+.gate-form{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
+#code{font-family:var(--font);font-size:17px;padding:14px 18px;border:1px solid var(--hairline);border-radius:12px;outline:none;text-align:center;transition:border-color .2s}
+#code:focus{border-color:var(--blue)}
+.gate-form.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.gate-btn{font-family:var(--font);font-size:17px;font-weight:500;color:#fff;background:var(--blue);border:none;border-radius:980px;padding:14px;cursor:pointer;transition:background .2s}
+.gate-btn:hover{background:#0077ed}
+.gate-err{color:var(--red);font-size:14px;text-align:center;min-height:18px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hairline)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.nav-brand span{color:var(--muted);font-weight:400}
+.nav-back{font-size:14px;color:var(--blue);text-decoration:none;font-weight:500}
+.nav-meta{font-size:12px;color:var(--muted)}
+
+/* HERO */
+.hero{max-width:1100px;margin:0 auto;padding:72px 24px 8px;text-align:center}
+.eyebrow{font-size:14px;font-weight:600;color:var(--blue);letter-spacing:.01em;margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-size:clamp(34px,6vw,56px);font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-bottom:8px}
+.hero-sub{font-size:15px;color:var(--muted);font-weight:400}
+.nw-big{font-size:clamp(48px,9vw,84px);font-weight:600;letter-spacing:-.03em;margin:18px 0 4px;line-height:1}
+.nw-cap{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+
+/* SUMMARY STATS */
+.stats{max-width:1100px;margin:0 auto;padding:36px 24px 8px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.stat{background:var(--gray);border-radius:18px;padding:20px 28px;min-width:170px;text-align:center;flex:1}
+.stat-val{font-size:26px;font-weight:600;letter-spacing:-.02em}
+.stat-val.pos{color:var(--green)}
+.stat-val.neg{color:var(--amber)}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+/* ALLOCATION */
+.alloc-wrap{max-width:1100px;margin:0 auto;padding:32px 24px 8px;display:flex;gap:40px;align-items:center;flex-wrap:wrap;justify-content:center}
+.donut{width:200px;height:200px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(
+    var(--blue) 0 84.88%,
+    var(--green) 84.88% 91.45%,
+    var(--purple) 91.45% 97.71%,
+    var(--teal) 97.71% 98.73%,
+    var(--slate) 98.73% 99.63%,
+    var(--orange) 99.63% 100%);
+  position:relative;mask:radial-gradient(circle 64px at center,transparent 98%,#000 100%);-webkit-mask:radial-gradient(circle 64px at center,transparent 98%,#000 100%)}
+.legend{display:flex;flex-direction:column;gap:10px;min-width:260px}
+.leg{display:flex;align-items:center;gap:10px;font-size:14px}
+.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+.leg-name{flex:1;color:var(--secondary)}
+.leg-val{font-weight:600;font-variant-numeric:tabular-nums}
+.leg-pct{color:var(--muted);font-size:12px;width:48px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* SECTIONS */
+.wrap{max-width:1100px;margin:0 auto;padding:24px 24px 96px}
+.section-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:36px 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+
+.cat{display:block;width:100%;text-align:left;cursor:pointer;background:var(--white);border:1px solid var(--hairline);border-radius:24px;padding:26px;transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s;font-family:var(--font)}
+.cat:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.cat.flat{cursor:default}.cat.flat:hover{transform:none;box-shadow:none}
+.cat-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:12px}
+.cat-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.cat-name{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.cat-meta{font-size:13px;color:var(--muted);margin-top:2px}
+.cat-val{font-size:27px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cat-val.liab{color:var(--amber)}
+.cat-bar{height:8px;background:var(--hairline);border-radius:980px;overflow:hidden;margin:14px 0 8px}
+.cat-bar-fill{height:100%;border-radius:980px;transition:width 1s cubic-bezier(.22,1,.36,1);width:0}
+.cat-cta{margin-top:14px;font-size:14px;font-weight:500;color:var(--blue);display:flex;align-items:center;gap:5px}
+.cat-cta::after{content:"→";transition:transform .2s}
+.cat:hover .cat-cta::after{transform:translateX(3px)}
+.cat-share{font-size:13px;color:var(--secondary);display:flex;justify-content:space-between;margin-top:6px}
+
+/* DETAIL VIEW */
+.view{display:none}
+.view.active{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:15px;color:var(--blue);background:none;border:none;cursor:pointer;font-family:var(--font);font-weight:500;margin-bottom:8px}
+.dhead{max-width:1100px;margin:0 auto;padding:80px 24px 8px}
+.dhead .eyebrow{text-align:left;margin-bottom:8px}
+.dhead h2{font-size:clamp(30px,5vw,46px);font-weight:600;letter-spacing:-.03em}
+.dhead .dval{font-size:clamp(34px,6vw,52px);font-weight:600;letter-spacing:-.03em;margin-top:8px}
+.dhead .dval.liab{color:var(--amber)}
+.dhead .dsub{font-size:14px;color:var(--muted);margin-top:6px}
+
+.line{background:var(--white);border:1px solid var(--hairline);border-radius:18px;padding:22px 24px;margin-bottom:14px}
+.line-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.line-name{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.line-sub{font-size:13px;color:var(--muted);margin-top:3px}
+.line-val{font-size:22px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.line-val.liab{color:var(--amber)}
+.line-bar{height:7px;background:var(--gray);border-radius:980px;overflow:hidden;margin-top:14px}
+.line-bar-fill{height:100%;border-radius:980px;background:linear-gradient(90deg,#34c759,#248A3D)}
+.line-grid{display:flex;gap:24px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--hairline)}
+.lg{font-size:13px}.lg b{display:block;font-size:17px;font-weight:600;margin-top:2px;font-variant-numeric:tabular-nums}
+.lg .eq{color:var(--green)}.lg .lo{color:var(--amber)}
+.tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:980px;text-transform:uppercase;letter-spacing:.02em}
+.tag.own{background:rgba(0,113,227,.1);color:var(--blue)}
+.tag.half{background:rgba(123,91,214,.12);color:var(--purple)}
+
+.note{max-width:1100px;margin:0 auto;padding:8px 24px 0;font-size:13px;color:var(--muted);line-height:1.6}
+
+footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);background:var(--gray);margin-top:40px}
+.foot-brand{font-size:15px;font-weight:600;margin-bottom:8px}
+.foot-brand span{color:var(--muted);font-weight:400}
+.foot-note{font-size:12px;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.6}
+
+@media(max-width:640px){
+  .nav-meta{display:none}
+  .hero{padding:48px 20px 8px}
+  .stat{min-width:140px}
+  .donut{width:170px;height:170px}
+}
+@media print{#gate{display:none!important}nav{position:static}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-brand">Hilex <span>· Private</span></div>
+  <div class="gate-title">Net Worth</div>
+  <div class="gate-sub">Enter your access code to continue</div>
+  <div class="gate-form" id="gateForm">
+    <input type="password" id="code" placeholder="Access code" autocomplete="off" autofocus>
+    <button class="gate-btn" onclick="checkCode()">View Dashboard</button>
+    <div class="gate-err" id="gateErr"></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <a href="../" class="nav-back">← Hilex</a>
+    <div class="nav-brand">Net Worth</div>
+    <div class="nav-meta" id="updated"></div>
+  </div>
+</nav>
+
+<!-- ===================== OVERVIEW ===================== -->
+<div id="overview" class="view active">
+  <div class="hero">
+    <div class="eyebrow">Personal Financial Statement</div>
+    <h1>Michael Abraham</h1>
+    <div class="nw-big">$1,527,050</div>
+    <div class="nw-cap">Estimated Net Worth · As of Jan 13, 2026</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-val">$2,786,250</div><div class="stat-lbl">Total Assets</div></div>
+    <div class="stat"><div class="stat-val neg">$1,259,200</div><div class="stat-lbl">Total Liabilities</div></div>
+    <div class="stat"><div class="stat-val">$213,300</div><div class="stat-lbl">Liquid Assets</div></div>
+    <div class="stat"><div class="stat-val pos">$1,232,681</div><div class="stat-lbl">Real Estate Equity</div></div>
+  </div>
+
+  <div class="alloc-wrap">
+    <div class="donut"></div>
+    <div class="legend">
+      <div class="leg"><span class="leg-dot" style="background:var(--blue)"></span><span class="leg-name">Real Estate</span><span class="leg-val">$2,365,000</span><span class="leg-pct">84.9%</span></div>
+      <div class="leg"><span class="leg-dot" style="background:var(--green)"></span><span class="leg-name">Retirement</span><span class="leg-val">$182,950</span><span class="leg-pct">6.6%</span></div>
+      <div class="leg"><span class="leg-dot" style="background:var(--purple)"></span><span class="leg-name">Brokerage</span><span class="leg-val">$174,500</span><span class="leg-pct">6.3%</span></div>
+      <div class="leg"><span class="leg-dot" style="background:var(--teal)"></span><span class="leg-name">Cash</span><span class="leg-val">$28,400</span><span class="leg-pct">1.0%</span></div>
+      <div class="leg"><span class="leg-dot" style="background:var(--slate)"></span><span class="leg-name">Personal Property</span><span class="leg-val">$25,000</span><span class="leg-pct">0.9%</span></div>
+      <div class="leg"><span class="leg-dot" style="background:var(--orange)"></span><span class="leg-name">Crypto</span><span class="leg-val">$10,400</span><span class="leg-pct">0.4%</span></div>
+    </div>
+  </div>
+  <div class="note" style="text-align:center">Allocation shown by gross asset value. Tap any category below to drill in.</div>
+
+  <div class="wrap">
+    <div class="section-label">Assets</div>
+    <div class="cards">
+
+      <button class="cat" onclick="show('realestate')">
+        <div class="cat-top"><div><div class="cat-name">Real Estate</div><div class="cat-meta">3 properties · your share</div></div>
+        <div class="cat-icon" style="background:rgba(0,113,227,.1)">🏠</div></div>
+        <div class="cat-val">$2,365,000</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="100" style="background:linear-gradient(90deg,#4a9eff,#0071E3)"></div></div>
+        <div class="cat-share"><span>Equity</span><b>$1,232,681</b></div>
+        <div class="cat-cta">View properties</div>
+      </button>
+
+      <button class="cat" onclick="show('retirement')">
+        <div class="cat-top"><div><div class="cat-name">Retirement</div><div class="cat-meta">401(k) + IRA</div></div>
+        <div class="cat-icon" style="background:rgba(36,138,61,.1)">🪙</div></div>
+        <div class="cat-val">$182,950</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="77" style="background:linear-gradient(90deg,#34c759,#248A3D)"></div></div>
+        <div class="cat-share"><span>401(k)</span><b>$121,600</b></div>
+        <div class="cat-cta">View accounts</div>
+      </button>
+
+      <button class="cat" onclick="show('brokerage')">
+        <div class="cat-top"><div><div class="cat-name">Brokerage</div><div class="cat-meta">Robinhood + E*Trade</div></div>
+        <div class="cat-icon" style="background:rgba(123,91,214,.12)">📈</div></div>
+        <div class="cat-val">$174,500</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="74" style="background:linear-gradient(90deg,#9d83e6,#7B5BD6)"></div></div>
+        <div class="cat-share"><span>Robinhood</span><b>$161,000</b></div>
+        <div class="cat-cta">View accounts</div>
+      </button>
+
+      <button class="cat" onclick="show('crypto')">
+        <div class="cat-top"><div><div class="cat-name">Crypto</div><div class="cat-meta">Coinbase</div></div>
+        <div class="cat-icon" style="background:rgba(217,118,15,.12)">₿</div></div>
+        <div class="cat-val">$10,400</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="5" style="background:linear-gradient(90deg,#eb9a3e,#D9760F)"></div></div>
+        <div class="cat-share"><span>Coinbase</span><b>$10,400</b></div>
+        <div class="cat-cta">View holdings</div>
+      </button>
+
+      <button class="cat" onclick="show('cash')">
+        <div class="cat-top"><div><div class="cat-name">Cash</div><div class="cat-meta">Checking + LLC shares</div></div>
+        <div class="cat-icon" style="background:rgba(15,157,166,.12)">💵</div></div>
+        <div class="cat-val">$28,400</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="12" style="background:linear-gradient(90deg,#2bc0c9,#0F9DA6)"></div></div>
+        <div class="cat-share"><span>Chase 4245</span><b>$11,400</b></div>
+        <div class="cat-cta">View accounts</div>
+      </button>
+
+      <button class="cat" onclick="show('personal')">
+        <div class="cat-top"><div><div class="cat-name">Personal Property</div><div class="cat-meta">Vehicle</div></div>
+        <div class="cat-icon" style="background:rgba(90,100,114,.12)">🚗</div></div>
+        <div class="cat-val">$25,000</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="11" style="background:linear-gradient(90deg,#7b8593,#5A6472)"></div></div>
+        <div class="cat-share"><span>Tesla Model Y</span><b>$25,000</b></div>
+        <div class="cat-cta">View detail</div>
+      </button>
+
+    </div>
+
+    <div class="section-label">Liabilities</div>
+    <div class="cards">
+      <button class="cat" onclick="show('liabilities')" style="grid-column:1/-1">
+        <div class="cat-top"><div><div class="cat-name">Total Liabilities</div><div class="cat-meta">Mortgages + HELOC + loans</div></div>
+        <div class="cat-icon" style="background:rgba(178,80,0,.1)">📉</div></div>
+        <div class="cat-val liab">$1,259,200</div>
+        <div class="cat-bar"><div class="cat-bar-fill" data-w="100" style="background:linear-gradient(90deg,#e08a3e,#B25000)"></div></div>
+        <div class="cat-share"><span>Mortgages (your share)</span><b>$1,132,319</b></div>
+        <div class="cat-cta">View debts</div>
+      </button>
+    </div>
+
+    <div class="section-label">Income &amp; Business</div>
+    <div class="cards">
+      <button class="cat" onclick="show('income')" style="grid-column:1/-1">
+        <div class="cat-top"><div><div class="cat-name">Hilex &amp; Tax History</div><div class="cat-meta">S-corp P&amp;L + reported income</div></div>
+        <div class="cat-icon" style="background:rgba(0,113,227,.1)">📊</div></div>
+        <div class="cat-val">$59,497</div>
+        <div class="cat-share"><span>Hilex 2025 net profit</span><b>2026 YTD $9,916</b></div>
+        <div class="cat-cta">View income</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REAL ESTATE ===================== -->
+<div id="realestate" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Real Estate</div>
+    <h2>Real Estate</h2>
+    <div class="dval">$1,232,681 <span style="font-size:.5em;color:var(--muted);font-weight:500">equity</span></div>
+    <div class="dsub">$2,365,000 value · $1,132,319 debt · your ownership share</div>
+  </div>
+  <div class="wrap">
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">2810 S Harcourt Ave <span class="tag own">100% owned</span></div><div class="line-sub">Acquired Sep 24, 2018</div></div><div class="line-val">$699,000</div></div>
+      <div class="line-bar"><div class="line-bar-fill" style="width:53.8%"></div></div>
+      <div class="line-grid"><div class="lg">Value<b>$1,300,000</b></div><div class="lg">Loan<b class="lo">$601,000</b></div><div class="lg">Equity<b class="eq">$699,000</b></div></div>
+    </div>
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">2906 Dalton Ave <span class="tag half">50% share</span></div><div class="line-sub">Acquired Aug 2, 2022</div></div><div class="line-val">$351,378</div></div>
+      <div class="line-bar"><div class="line-bar-fill" style="width:52.8%"></div></div>
+      <div class="line-grid"><div class="lg">Value (share)<b>$665,000</b></div><div class="lg">Loan (share)<b class="lo">$313,622</b></div><div class="lg">Equity<b class="eq">$351,378</b></div></div>
+    </div>
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">900 S Nueva Vista <span class="tag half">50% share</span></div><div class="line-sub">Acquired Dec 11, 2022</div></div><div class="line-val">$182,303</div></div>
+      <div class="line-bar"><div class="line-bar-fill" style="width:45.6%"></div></div>
+      <div class="line-grid"><div class="lg">Value (share)<b>$400,000</b></div><div class="lg">Loan (share)<b class="lo">$217,697</b></div><div class="lg">Equity<b class="eq">$182,303</b></div></div>
+    </div>
+    <div class="note">Full-property values: Harcourt $1.30M, Dalton $1.33M, Nueva Vista $800K. Dalton and Nueva Vista are held 50/50; figures above reflect your share. Equity bars show share of value held as equity vs. debt.</div>
+  </div>
+</div>
+
+<!-- ===================== RETIREMENT ===================== -->
+<div id="retirement" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Retirement</div>
+    <h2>Retirement</h2>
+    <div class="dval">$182,950</div>
+    <div class="dsub">Tax-advantaged accounts</div>
+  </div>
+  <div class="wrap">
+    <div class="line"><div class="line-top"><div><div class="line-name">401(k)</div><div class="line-sub">Employer-sponsored</div></div><div class="line-val">$121,600</div></div><div class="line-bar"><div class="line-bar-fill" style="width:66.5%"></div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">Personal IRA</div><div class="line-sub">Individual retirement account</div></div><div class="line-val">$61,350</div></div><div class="line-bar"><div class="line-bar-fill" style="width:33.5%"></div></div></div>
+  </div>
+</div>
+
+<!-- ===================== BROKERAGE ===================== -->
+<div id="brokerage" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Brokerage</div>
+    <h2>Brokerage</h2>
+    <div class="dval">$174,500</div>
+    <div class="dsub">Taxable investment accounts</div>
+  </div>
+  <div class="wrap">
+    <div class="line"><div class="line-top"><div><div class="line-name">Robinhood</div><div class="line-sub">Equities</div></div><div class="line-val">$161,000</div></div><div class="line-bar"><div class="line-bar-fill" style="width:92.3%"></div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">E*Trade</div><div class="line-sub">Equities</div></div><div class="line-val">$13,500</div></div><div class="line-bar"><div class="line-bar-fill" style="width:7.7%"></div></div></div>
+  </div>
+</div>
+
+<!-- ===================== CRYPTO ===================== -->
+<div id="crypto" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Crypto</div>
+    <h2>Crypto</h2>
+    <div class="dval">$10,400</div>
+    <div class="dsub">Digital assets</div>
+  </div>
+  <div class="wrap">
+    <div class="line"><div class="line-top"><div><div class="line-name">Coinbase</div><div class="line-sub">Exchange balance</div></div><div class="line-val">$10,400</div></div><div class="line-bar"><div class="line-bar-fill" style="width:100%"></div></div></div>
+    <div class="note">Single aggregated balance on record. If you want per-coin breakdown (BTC / ETH / etc.), send holdings and I'll split this out.</div>
+  </div>
+</div>
+
+<!-- ===================== CASH ===================== -->
+<div id="cash" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Cash</div>
+    <h2>Cash &amp; Equivalents</h2>
+    <div class="dval">$28,400</div>
+    <div class="dsub">Excludes brokerage &amp; crypto (shown separately)</div>
+  </div>
+  <div class="wrap">
+    <div class="line"><div class="line-top"><div><div class="line-name">Combined LLC Shares</div><div class="line-sub">Membership interest value</div></div><div class="line-val">$17,000</div></div><div class="line-bar"><div class="line-bar-fill" style="width:59.9%"></div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">Chase Checking · 4245</div><div class="line-sub">Operating cash</div></div><div class="line-val">$11,400</div></div><div class="line-bar"><div class="line-bar-fill" style="width:40.1%"></div></div></div>
+    <div class="note">Liquid assets on the financial statement total $213,300 when Robinhood, E*Trade and Coinbase are included. They're broken into Brokerage and Crypto here for clearer tracking.</div>
+  </div>
+</div>
+
+<!-- ===================== PERSONAL PROPERTY ===================== -->
+<div id="personal" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Assets · Personal Property</div>
+    <h2>Personal Property</h2>
+    <div class="dval">$25,000</div>
+    <div class="dsub">Owned outright</div>
+  </div>
+  <div class="wrap">
+    <div class="line"><div class="line-top"><div><div class="line-name">Tesla Model Y (2020, FSD)</div><div class="line-sub">Estimated market value</div></div><div class="line-val">$25,000</div></div><div class="line-bar"><div class="line-bar-fill" style="width:100%"></div></div></div>
+  </div>
+</div>
+
+<!-- ===================== LIABILITIES ===================== -->
+<div id="liabilities" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Liabilities</div>
+    <h2>Liabilities</h2>
+    <div class="dval liab">$1,259,200</div>
+    <div class="dsub">All outstanding debt · mortgage figures are your share</div>
+  </div>
+  <div class="wrap">
+    <div class="section-label">Mortgages (your share)</div>
+    <div class="line"><div class="line-top"><div><div class="line-name">2810 S Harcourt</div><div class="line-sub">100% owned</div></div><div class="line-val liab">$601,000</div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">2906 Dalton Ave</div><div class="line-sub">50% share of $627,243</div></div><div class="line-val liab">$313,622</div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">900 S Nueva Vista</div><div class="line-sub">50% share of $435,394</div></div><div class="line-val liab">$217,697</div></div></div>
+    <div class="section-label">Other Debt</div>
+    <div class="line"><div class="line-top"><div><div class="line-name">HELOC</div><div class="line-sub">Home equity line</div></div><div class="line-val liab">$82,000</div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">Nelnet</div><div class="line-sub">Student loan</div></div><div class="line-val liab">$27,281</div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">Personal Loan</div><div class="line-sub">Unsecured</div></div><div class="line-val liab">$17,600</div></div></div>
+  </div>
+</div>
+
+<!-- ===================== INCOME / BUSINESS ===================== -->
+<div id="income" class="view">
+  <div class="dhead">
+    <button class="back" onclick="show('overview')">← Net Worth</button>
+    <div class="eyebrow">Income &amp; Business</div>
+    <h2>Hilex &amp; Tax History</h2>
+    <div class="dsub">Hilex is an S-corp (EIN 99-2882395). Figures from P&amp;L statements and IRS transcripts.</div>
+  </div>
+  <div class="wrap">
+    <div class="section-label">Hilex — Profit &amp; Loss</div>
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">2025 (full year)</div><div class="line-sub">Gross $82,885 · Expenses $23,389</div></div><div class="line-val eq" style="color:var(--green)">$59,497</div></div>
+      <div class="line-grid"><div class="lg">Gross Income<b>$82,885</b></div><div class="lg">Expenses<b class="lo">$23,389</b></div><div class="lg">Net Profit<b class="eq">$59,497</b></div></div>
+    </div>
+    <div class="line">
+      <div class="line-top"><div><div class="line-name">2026 (year to date)</div><div class="line-sub">Gross $13,814 · Expenses $3,898</div></div><div class="line-val eq" style="color:var(--green)">$9,916</div></div>
+      <div class="line-grid"><div class="lg">Gross Income<b>$13,814</b></div><div class="lg">Expenses<b class="lo">$3,898</b></div><div class="lg">Net Profit<b class="eq">$9,916</b></div></div>
+    </div>
+    <div class="section-label">Reported Income (IRS transcripts)</div>
+    <div class="line"><div class="line-top"><div><div class="line-name">2023</div><div class="line-sub">Taxable income $234,056</div></div><div class="line-val">$302,599</div></div></div>
+    <div class="line"><div class="line-top"><div><div class="line-name">2024</div><div class="line-sub">Taxable income $0</div></div><div class="line-val liab">−$19,993</div></div></div>
+    <div class="note">2024 total income is reported negative on the IRS transcript (likely depreciation / passive losses). Confirm before using externally. 2025 return transcript and the Hilex 1120-S were password-locked and are not reflected here.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">Hilex <span>· Private</span></div>
+  <p class="foot-note">Confidential personal financial statement for Michael Abraham. Access-gated and separate from any public website. Snapshot as of Jan 13, 2026; figures reconciled from the signed net-worth statement, Hilex P&amp;L, and IRS transcripts.</p>
+</footer>
+
+<script>
+const ACCESS_CODE = "Hilex##2026";
+function checkCode(){
+  const v=document.getElementById('code').value.trim();
+  if(v===ACCESS_CODE){sessionStorage.setItem('hilex_auth','1');reveal();}
+  else{const f=document.getElementById('gateForm');f.classList.add('shake');
+    document.getElementById('gateErr').textContent="Incorrect code. Try again.";
+    setTimeout(()=>f.classList.remove('shake'),400);}
+}
+function reveal(){document.getElementById('gate').classList.add('hidden');setTimeout(init,300);}
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')checkCode()});
+if(sessionStorage.getItem('hilex_auth')==='1'){document.getElementById('gate').classList.add('hidden');}
+
+function show(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'instant'});
+  if(id==='overview') animateBars();
+}
+function animateBars(){
+  document.querySelectorAll('#overview .cat-bar-fill[data-w]').forEach(el=>{
+    el.style.width='0';setTimeout(()=>{el.style.width=el.dataset.w+'%';},150);
+  });
+}
+function init(){
+  document.getElementById('updated').textContent="Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  animateBars();
+}
+if(sessionStorage.getItem('hilex_auth')==='1'){init();}
+</script>
+</body>
+</html>
