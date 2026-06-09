@@ -167,9 +167,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
     <div class="stat"><div class="stat-val">$98,234</div><div class="stat-lbl">Total Budget</div></div>
-    <div class="stat"><div class="stat-val paid">$46,736</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$51,498</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">48%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val paid">$50,070</div><div class="stat-lbl">Paid to Date</div></div>
+    <div class="stat"><div class="stat-val rem">$48,164</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">51%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -178,12 +178,12 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">48%</div>
+      <div class="progress-pct" id="pct">51%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$46,736</b> of <b>$98,234</b></span>
-      <span>Remaining <b>$51,498</b></span>
+      <span>Paid <b>$50,070</b> of <b>$98,234</b></span>
+      <span>Remaining <b>$48,164</b></span>
       <span>+10% contingency reserve: <b>$9,823</b></span>
     </div>
   </div>
@@ -234,7 +234,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     <div class="subtotal">
       <div>FF&amp;E Subtotal (tracked)</div>
       <div class="lnum">$5,834</div>
-      <div class="lnum paid">$15,486</div>
+      <div class="lnum paid">$18,819</div>
       <div class="lnum col-rem">—</div>
       <div class="col-stat"><span class="tag prog">in progress</span></div>
     </div>
@@ -246,7 +246,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="block-in">
     <div class="block-head">
       <h2>Payment Ledger</h2>
-      <p>Every payment made to date, by date. Total disbursed: <b>$26,634</b>.</p>
+      <p>Every payment made to date, by date. Total disbursed: <b>$50,070</b>.</p>
     </div>
     <div class="pay-grid" id="payGrid"></div>
   </div>
@@ -308,14 +308,14 @@ const ffe = [
   {name:"Front Bath — Tub & Shower",sub:"Wayfair",bud:1211,spent:1210.83,stat:"done",statTxt:"Purchased"},
   {name:"French Doors",sub:"Westside Doors · single pane deposit",bud:1764,spent:1191.65,stat:"order",statTxt:"Deposit paid"},
   {name:"Shower Fixture",sub:"Wayfair",bud:317,spent:317.34,stat:"done",statTxt:"Purchased"},
-  {name:"Washer & Dryer",sub:"GE front load",bud:1696,spent:0,stat:"none",statTxt:"Not ordered"},
+  {name:"Washer/Dryer & Range Hood",sub:"Absolute Appliances",bud:3242,spent:3242.02,stat:"done",statTxt:"Purchased"},
   {name:"Refrigerator",sub:"",bud:1500,spent:0,stat:"none",statTxt:"Not ordered"},
   {name:"Dishwasher",sub:"LG 24\" built-in",bud:499,spent:0,stat:"none",statTxt:"Not ordered"},
   {name:"Garbage Disposal",sub:"InSinkErator ¾HP",bud:139,spent:0,stat:"none",statTxt:"Not ordered"},
   {name:"Kitchen Countertops",sub:"Quartz · template after cabinets",bud:0,spent:0,stat:"none",statTxt:"Pending"},
   {name:"Cabinet Hardware",sub:"Satin brass pulls & knobs",bud:0,spent:0,stat:"none",statTxt:"Pending"},
   {name:"Lighting Package",sub:"Wayfair · ceiling, sconces, vanity",bud:0,spent:0,stat:"none",statTxt:"Pending"},
-  {name:"Door Hardware",sub:"Kwikset Henley · matte black",bud:0,spent:0,stat:"none",statTxt:"Pending"},
+  {name:"Door Hardware",sub:"Kwikset Henley + tenant handles",bud:318,spent:317.65,stat:"done",statTxt:"Purchased"},
 ];
 const payments = [
   {amt:1000,who:"Tensegrity Homes",desc:"As-built & plans — drawing units",method:"Zelle",date:"Apr 13"},
@@ -357,6 +357,8 @@ const payments = [
   {amt:42.78,who:"Lowe\'s",desc:"Door handle — Kwikset Henley Matte Black keyed entry",method:"Michael AMEX",date:"May 23"},
   {amt:152.55,who:"Lowe\'s",desc:"Door handleset + deadbolt — Kwikset Henley Matte Black",method:"Michael AMEX",date:"May 23"},
   {amt:30.16,who:"Lowe\'s",desc:"Deadbolt — Kwikset 660 Matte Black",method:"Michael AMEX",date:"May 23"},
+  {amt:3242.02,who:"Absolute Appliances",desc:"Washer/dryer + range hood insert",method:"Ari AMEX",date:"Jun 3"},
+  {amt:92.16,who:"Amazon",desc:"Tenant door handles — 2642 rear unit",method:"Michael AMEX",date:"Jun 11"},
 ];
 const categories = [
   {name:"Expression in Tile (construction)",amt:55000,color:"#0071E3"},
@@ -372,7 +374,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="48%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="51%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
