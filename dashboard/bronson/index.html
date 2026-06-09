@@ -167,9 +167,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
     <div class="stat"><div class="stat-val">$98,234</div><div class="stat-lbl">Total Budget</div></div>
-    <div class="stat"><div class="stat-val paid">$50,070</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$48,164</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">51%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val paid">$52,070</div><div class="stat-lbl">Paid to Date</div></div>
+    <div class="stat"><div class="stat-val rem">$46,164</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">53%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -178,12 +178,12 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">51%</div>
+      <div class="progress-pct" id="pct">53%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$50,070</b> of <b>$98,234</b></span>
-      <span>Remaining <b>$48,164</b></span>
+      <span>Paid <b>$52,070</b> of <b>$98,234</b></span>
+      <span>Remaining <b>$46,164</b></span>
       <span>+10% contingency reserve: <b>$9,823</b></span>
     </div>
   </div>
@@ -208,9 +208,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     <div class="subtotal">
       <div>Contractors Subtotal</div>
       <div class="lnum">$92,400</div>
-      <div class="lnum paid">$31,251</div>
-      <div class="lnum col-rem">$61,149</div>
-      <div class="col-stat"><span class="tag prog">34% paid</span></div>
+      <div class="lnum paid">$33,251</div>
+      <div class="lnum col-rem">$59,149</div>
+      <div class="col-stat"><span class="tag prog">36% paid</span></div>
     </div>
   </div>
 </section>
@@ -246,7 +246,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="block-in">
     <div class="block-head">
       <h2>Payment Ledger</h2>
-      <p>Every payment made to date, by date. Total disbursed: <b>$50,070</b>.</p>
+      <p>Every payment made to date, by date. Total disbursed: <b>$52,070</b>.</p>
     </div>
     <div class="pay-grid" id="payGrid"></div>
   </div>
@@ -293,7 +293,7 @@ if(sessionStorage.getItem('bronson_auth')==='1'){document.getElementById('gate')
 // DATA
 const contractors = [
   {name:"Expression in Tile",sub:"Christian Partida · 2 baths, kitchen, floors, ceiling",est:55000,paid:22000,stat:"prog",statTxt:"In progress"},
-  {name:"Tensegrity Homes",sub:"Lior Schapiro · As-built, plans, design",est:9000,paid:7000,stat:"prog",statTxt:"78% paid"},
+  {name:"Tensegrity Homes",sub:"Lior Schapiro · As-built, plans, design",est:9000,paid:9000,stat:"done",statTxt:"Complete"},
   {name:"LADBS + Permits",sub:"Plan check & submittal fees",est:1600,paid:651.06,stat:"prog",statTxt:"In progress"},
   {name:"Jose Mata",sub:"Demo / hauling — gate, garage, awning",est:1600,paid:1600,stat:"done",statTxt:"Complete"},
   {name:"Little Giant — Interior",sub:"Interior paint",est:4800,paid:0,stat:"none",statTxt:"Not started"},
@@ -359,6 +359,7 @@ const payments = [
   {amt:30.16,who:"Lowe\'s",desc:"Deadbolt — Kwikset 660 Matte Black",method:"Michael AMEX",date:"May 23"},
   {amt:3242.02,who:"Absolute Appliances",desc:"Washer/dryer + range hood insert",method:"Ari AMEX",date:"Jun 3"},
   {amt:92.16,who:"Amazon",desc:"Tenant door handles — 2642 rear unit",method:"Michael AMEX",date:"Jun 11"},
+  {amt:2000,who:"Tensegrity Homes",desc:"As-built & plans — final payment",method:"Zelle",date:"Jun 8"},
 ];
 const categories = [
   {name:"Expression in Tile (construction)",amt:55000,color:"#0071E3"},
@@ -374,7 +375,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="51%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="53%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
