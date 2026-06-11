@@ -180,10 +180,10 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <h1>2640 S Bronson Ave</h1>
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-val">$98,484</div><div class="stat-lbl">Total Budget</div></div>
+    <div class="stat"><div class="stat-val">$101,984</div><div class="stat-lbl">Total Budget</div></div>
     <div class="stat"><div class="stat-val paid">$52,070</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$46,414</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">53%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val rem">$49,914</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">51%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -192,13 +192,13 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">53%</div>
+      <div class="progress-pct" id="pct">51%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$52,070</b> of <b>$98,484</b></span>
-      <span>Remaining <b>$46,414</b></span>
-      <span>+10% contingency reserve: <b>$9,848</b></span>
+      <span>Paid <b>$52,070</b> of <b>$101,984</b></span>
+      <span>Remaining <b>$49,914</b></span>
+      <span>+10% contingency reserve: <b>$10,198</b></span>
     </div>
   </div>
 </div>
@@ -221,10 +221,10 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     </div>
     <div class="subtotal">
       <div>Contractors Subtotal</div>
-      <div class="lnum">$92,400</div>
+      <div class="lnum">$95,900</div>
       <div class="lnum paid">$33,251</div>
-      <div class="lnum col-rem">$59,149</div>
-      <div class="col-stat"><span class="tag prog">36% paid</span></div>
+      <div class="lnum col-rem">$62,649</div>
+      <div class="col-stat"><span class="tag prog">35% paid</span></div>
     </div>
   </div>
 </section>
@@ -290,7 +290,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 
 <footer>
   <div class="foot-brand">Tensegrity Homes <span>· 2640 S Bronson Ave</span></div>
-  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($9,848) held above the $98,484 base budget.</p>
+  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($10,198) held above the $101,984 base budget.</p>
 </footer>
 
 <script>
@@ -317,14 +317,14 @@ if(sessionStorage.getItem('bronson_auth')==='1'){document.getElementById('gate')
 
 // DATA
 const contractors = [
-  {name:"Expression in Tile",sub:"Christian Partida · 2 baths, kitchen, floors, ceiling",est:55000,paid:22000,stat:"prog",statTxt:"In progress"},
+  {name:"Expression in Tile",sub:"Christian Partida · 2 baths, kitchen, floors, ceiling · $2,000 tile credit pending (see Change Order)",est:55000,paid:22000,stat:"prog",statTxt:"In progress"},
   {name:"Tensegrity Homes",sub:"Lior Schapiro · As-built, plans, design",est:9000,paid:9000,stat:"done",statTxt:"Complete"},
   {name:"LADBS + Permits",sub:"Plan check & submittal fees",est:1600,paid:651.06,stat:"prog",statTxt:"In progress"},
   {name:"Jose Mata",sub:"Demo / hauling — gate, garage, awning",est:1600,paid:1600,stat:"done",statTxt:"Complete"},
   {name:"Little Giant — Interior",sub:"Interior paint",est:4800,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Little Giant — Skim Coat",sub:"Popcorn removal + skim coat",est:3600,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Little Giant — Exterior",sub:"Exterior paint",est:7600,paid:0,stat:"none",statTxt:"Not started"},
-  {name:"Jovel",sub:"Landscaping",est:4500,paid:0,stat:"none",statTxt:"Not started"},
+  {name:"Jovel",sub:"Landscaping",est:8000,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Anton P.",sub:"Roof maintenance",est:1800,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Sewer Line Services",sub:"Top hat lateral seal",est:4500,paid:0,stat:"none",statTxt:"Not started"},
 ];
@@ -346,32 +346,28 @@ const ffe = [
   {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 quote pending w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:0,spent:0,stat:"order",statTxt:"Quote pending"},
 ];
 const reminders = [
- {grp:"Tenant Unit \u2014 2642 (Interior)",items:[
-  {txt:"<b>Range hood</b> \u2014 not working / wrong unit. Order replacement.",sub:"Return current insert from Absolute Appliances bundle",own:"Michael / Ari"},
-  {txt:"<b>Interior door</b> won\u2019t close \u2014 adjust or rehang.",own:"Christian"},
-  {txt:"<b>Handles x3</b> \u2014 purchased on Amazon Jun 11 ($92.16).",own:"Michael",done:true},
-  {txt:"<b>W/D area</b> \u2014 confirm tile-wall scope + tile fee with Christian.",own:"Christian"},
-  {txt:"<b>W/D knobs</b> \u2014 replace (not add) with brushed nickel.",own:"Michael"},
+ {grp:"Tenant Unit \u2014 2642",items:[
+  {txt:"<b>New range hood</b> \u2014 current unit not working / wrong unit. Return + order replacement.",sub:"From Absolute Appliances bundle (Jun 3)",own:"Michael / Ari"},
+  {txt:"<b>Door hardware</b> \u2014 interior door won\u2019t close; adjust/rehang + install handles.",sub:"Handles x3 purchased Amazon Jun 11 ($92.16)",own:"Christian"},
  ]},
- {grp:"Primary Bath",items:[
-  {txt:"<b>Return Wayfair Bilroy 24\u2019\u2019 vanity</b> ($791.29 credit).",own:"Michael"},
-  {txt:"<b>Cabinet City quote</b> \u2014 Luca 24\u2019\u2019 2-door vanity + plain white quartz top, CC to fabricate.",sub:"Contact Lily \u00b7 San Gabriel",own:"Michael"},
+ {grp:"Expression in Tile \u2014 Change Order (cost TBD)",items:[
+  {txt:"<b>W/D tile-wall scope + tile fee</b> \u2014 confirm with Christian.",own:"Christian"},
+  {txt:"<b>Remove existing rear exterior light \u2192 install two new.</b>",own:"Christian"},
+  {txt:"<b>Level entrance \u00b7 patch exterior walls.</b>",own:"Christian"},
+  {txt:"<b>Left side-yard patio overhang</b> \u2014 possible water intrusion; scope after SLR input.",own:"Christian"},
+  {txt:"<b>Antenna</b> \u2014 potentially remove.",own:"Christian"},
+  {txt:"<b>$2,000 tile credit</b> to be applied against the change order / contract balance.",sub:"Confirm in writing with Christian before signing CO",own:"Note"},
  ]},
- {grp:"Exterior",items:[
-  {txt:"<b>Buy one additional exterior light</b> (match Caden 2-Light Black).",own:"Michael"},
-  {txt:"<b>Remove existing rear exterior light, install two new.</b>",own:"Christian"},
-  {txt:"<b>Level the entrance.</b>",own:"Christian"},
-  {txt:"<b>Patch exterior walls.</b>",own:"Christian"},
-  {txt:"<b>Side-yard patio overhang (left)</b> \u2014 review possible water intrusion.",own:"SLR / Christian"},
-  {txt:"<b>Antenna</b> \u2014 potentially remove.",own:"TBD"},
+ {grp:"SLR \u2014 Roof",items:[
+  {txt:"<b>Existing project</b> \u2014 reach out: what did they observe on the roof?",own:"Michael"},
+  {txt:"<b>New project</b> \u2014 patio issues / left-side overhang leak; get assessment + quote.",own:"Michael"},
  ]},
- {grp:"Roof / SLR",items:[
-  {txt:"<b>Call SLR</b> \u2014 confirm what they observed on the roof.",own:"Michael"},
-  {txt:"<b>Ask SLR</b> about the small side-yard overhang \u2014 water intrusion risk?",own:"Michael"},
- ]},
- {grp:"Extra Work \u2014 Christian",items:[
-  {txt:"<b>Print + walk the extra-work list</b>: hood swap, patio, wall patch, W/D tile walls.",own:"Michael + Christian"},
-  {txt:"<b>Confirm all added costs</b>, including the tile fee \u2014 then update budget.",own:"Christian"},
+ {grp:"Tasks",items:[
+  {txt:"<b>Return the vanity</b> \u2014 Wayfair Bilroy 24\u2019\u2019 ($791.29 credit).",own:"Michael"},
+  {txt:"<b>Return the extra shower.</b>",own:"Michael"},
+  {txt:"<b>Order brushed nickel knobs</b> for W/D area.",own:"Michael"},
+  {txt:"<b>Buy 1 additional exterior light</b> (match Caden 2-Light Black, ~$250).",own:"Michael"},
+  {txt:"<b>Cabinet City quote</b> \u2014 Luca 24\u2019\u2019 2-door vanity + plain white quartz top (Lily).",own:"Michael"},
  ]},
 ];
 
@@ -425,7 +421,7 @@ const categories = [
   {name:"Architecture & Permits",amt:10600,color:"#5856d6"},
   {name:"Site / Sewer / Roof",amt:7900,color:"#B25000"},
   {name:"FF&E (fixtures & appliances)",amt:6084,color:"#ff9500"},
-  {name:"Landscaping (Jovel)",amt:4500,color:"#248A3D"},
+  {name:"Landscaping (Jovel)",amt:8000,color:"#248A3D"},
 ];
 
 const fmt=n=>"$"+Math.round(n).toLocaleString();
@@ -433,7 +429,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="53%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="51%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
