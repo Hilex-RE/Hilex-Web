@@ -65,6 +65,20 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-
 .progress-foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:18px;font-size:14px;color:rgba(255,255,255,.7)}
 .progress-foot b{color:#fff;font-weight:600}
 
+/* REMINDERS */
+.rem-group{background:#fff;border:1px solid var(--hairline);border-radius:18px;padding:24px 28px;margin-bottom:14px}
+.block.alt .rem-group{background:#fff}
+.rem-group h4{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.rem-item{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--hairline);font-size:15px;line-height:1.45}
+.rem-item:last-child{border-bottom:none}
+.rem-item .dot{flex:0 0 8px;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:7px}
+.rem-item.done .dot{background:var(--green)}
+.rem-item.done .rem-txt{color:var(--muted);text-decoration:line-through}
+.rem-txt{flex:1}
+.rem-txt b{font-weight:600}
+.rem-txt .rsub{display:block;font-size:13px;color:var(--secondary);margin-top:2px}
+.rem-own{flex:0 0 auto;font-size:12px;font-weight:500;color:var(--secondary);background:var(--gray);border-radius:980px;padding:4px 12px;white-space:nowrap}
+
 /* SECTION */
 section.block{padding:72px 0;border-top:1px solid var(--hairline)}
 section.block.alt{background:var(--gray)}
@@ -166,9 +180,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <h1>2640 S Bronson Ave</h1>
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-val">$98,234</div><div class="stat-lbl">Total Budget</div></div>
+    <div class="stat"><div class="stat-val">$98,484</div><div class="stat-lbl">Total Budget</div></div>
     <div class="stat"><div class="stat-val paid">$52,070</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$46,164</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val rem">$46,414</div><div class="stat-lbl">Remaining</div></div>
     <div class="stat"><div class="stat-val">53%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
@@ -182,9 +196,9 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$52,070</b> of <b>$98,234</b></span>
-      <span>Remaining <b>$46,164</b></span>
-      <span>+10% contingency reserve: <b>$9,823</b></span>
+      <span>Paid <b>$52,070</b> of <b>$98,484</b></span>
+      <span>Remaining <b>$46,414</b></span>
+      <span>+10% contingency reserve: <b>$9,848</b></span>
     </div>
   </div>
 </div>
@@ -233,7 +247,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     </div>
     <div class="subtotal">
       <div>FF&amp;E Subtotal (tracked)</div>
-      <div class="lnum">$5,834</div>
+      <div class="lnum">$6,084</div>
       <div class="lnum paid">$18,819</div>
       <div class="lnum col-rem">—</div>
       <div class="col-stat"><span class="tag prog">in progress</span></div>
@@ -263,9 +277,20 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   </div>
 </section>
 
+<!-- REMINDERS -->
+<section class="block">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Reminders</h2>
+      <p>Open punch items, follow-ups, and pending quotes. Print-friendly for the walk-through with Christian.</p>
+    </div>
+    <div id="remList"></div>
+  </div>
+</section>
+
 <footer>
   <div class="foot-brand">Tensegrity Homes <span>· 2640 S Bronson Ave</span></div>
-  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($9,823) held above the $98,234 base budget.</p>
+  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($9,848) held above the $98,484 base budget.</p>
 </footer>
 
 <script>
@@ -316,7 +341,40 @@ const ffe = [
   {name:"Cabinet Hardware",sub:"Wayfair · Kent satin brass pulls + knobs x24",bud:228,spent:227.62,stat:"done",statTxt:"Purchased"},
   {name:"Lighting Package",sub:"Pendants, sconces, vanity & flush mounts (8 fixtures)",bud:1467,spent:1467.04,stat:"done",statTxt:"Purchased"},
   {name:"Door Hardware",sub:"Kwikset Henley + tenant handles",bud:318,spent:317.65,stat:"done",statTxt:"Purchased"},
+  {name:"Replacement Range Hood",sub:"Tenant unit \u00b7 current hood not working / wrong unit \u2014 return & reorder",bud:0,spent:0,stat:"none",statTxt:"To order"},
+  {name:"Exterior Light #2",sub:"Match Caden 2-Light Black \u00b7 remove existing rear light, install two new",bud:250,spent:0,stat:"none",statTxt:"To order"},
+  {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 quote pending w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:0,spent:0,stat:"order",statTxt:"Quote pending"},
 ];
+const reminders = [
+ {grp:"Tenant Unit \u2014 2642 (Interior)",items:[
+  {txt:"<b>Range hood</b> \u2014 not working / wrong unit. Order replacement.",sub:"Return current insert from Absolute Appliances bundle",own:"Michael / Ari"},
+  {txt:"<b>Interior door</b> won\u2019t close \u2014 adjust or rehang.",own:"Christian"},
+  {txt:"<b>Handles x3</b> \u2014 purchased on Amazon Jun 11 ($92.16).",own:"Michael",done:true},
+  {txt:"<b>W/D area</b> \u2014 confirm tile-wall scope + tile fee with Christian.",own:"Christian"},
+  {txt:"<b>W/D knobs</b> \u2014 replace (not add) with brushed nickel.",own:"Michael"},
+ ]},
+ {grp:"Primary Bath",items:[
+  {txt:"<b>Return Wayfair Bilroy 24\u2019\u2019 vanity</b> ($791.29 credit).",own:"Michael"},
+  {txt:"<b>Cabinet City quote</b> \u2014 Luca 24\u2019\u2019 2-door vanity + plain white quartz top, CC to fabricate.",sub:"Contact Lily \u00b7 San Gabriel",own:"Michael"},
+ ]},
+ {grp:"Exterior",items:[
+  {txt:"<b>Buy one additional exterior light</b> (match Caden 2-Light Black).",own:"Michael"},
+  {txt:"<b>Remove existing rear exterior light, install two new.</b>",own:"Christian"},
+  {txt:"<b>Level the entrance.</b>",own:"Christian"},
+  {txt:"<b>Patch exterior walls.</b>",own:"Christian"},
+  {txt:"<b>Side-yard patio overhang (left)</b> \u2014 review possible water intrusion.",own:"SLR / Christian"},
+  {txt:"<b>Antenna</b> \u2014 potentially remove.",own:"TBD"},
+ ]},
+ {grp:"Roof / SLR",items:[
+  {txt:"<b>Call SLR</b> \u2014 confirm what they observed on the roof.",own:"Michael"},
+  {txt:"<b>Ask SLR</b> about the small side-yard overhang \u2014 water intrusion risk?",own:"Michael"},
+ ]},
+ {grp:"Extra Work \u2014 Christian",items:[
+  {txt:"<b>Print + walk the extra-work list</b>: hood swap, patio, wall patch, W/D tile walls.",own:"Michael + Christian"},
+  {txt:"<b>Confirm all added costs</b>, including the tile fee \u2014 then update budget.",own:"Christian"},
+ ]},
+];
+
 const payments = [
   {amt:1000,who:"Tensegrity Homes",desc:"As-built & plans — drawing units",method:"Zelle",date:"Apr 13"},
   {amt:3000,who:"Tensegrity Homes",desc:"As-built & plans — submitting plans",method:"Zelle",date:"Apr 15"},
@@ -366,7 +424,7 @@ const categories = [
   {name:"Painting (Little Giant)",amt:16000,color:"#34c759"},
   {name:"Architecture & Permits",amt:10600,color:"#5856d6"},
   {name:"Site / Sewer / Roof",amt:7900,color:"#B25000"},
-  {name:"FF&E (fixtures & appliances)",amt:5834,color:"#ff9500"},
+  {name:"FF&E (fixtures & appliances)",amt:6084,color:"#ff9500"},
   {name:"Landscaping (Jovel)",amt:4500,color:"#248A3D"},
 ];
 
@@ -412,6 +470,19 @@ function initDash(){
       <div class="desc">${p.desc}</div>
       <div class="meta"><span>${p.method}</span><span>${p.date}</span></div>`;
     pg.appendChild(card);
+  });
+
+  // reminders
+  const rl=document.getElementById('remList');
+  reminders.forEach(g=>{
+    const card=document.createElement('div');card.className='rem-group';
+    let h=`<h4>${g.grp}</h4>`;
+    g.items.forEach(i=>{
+      h+=`<div class="rem-item ${i.done?'done':''}"><span class="dot"></span>
+        <div class="rem-txt">${i.txt}${i.sub?`<span class="rsub">${i.sub}</span>`:''}</div>
+        <span class="rem-own">${i.own}</span></div>`;
+    });
+    card.innerHTML=h;rl.appendChild(card);
   });
 
   // categories
