@@ -180,10 +180,10 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <h1>2640 S Bronson Ave</h1>
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-val">$101,984</div><div class="stat-lbl">Total Budget</div></div>
+    <div class="stat"><div class="stat-val">$105,924</div><div class="stat-lbl">Total Budget</div></div>
     <div class="stat"><div class="stat-val paid">$52,070</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$49,914</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">51%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val rem">$53,854</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">49%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -192,13 +192,13 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">51%</div>
+      <div class="progress-pct" id="pct">49%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$52,070</b> of <b>$101,984</b></span>
-      <span>Remaining <b>$49,914</b></span>
-      <span>+10% contingency reserve: <b>$10,198</b></span>
+      <span>Paid <b>$52,070</b> of <b>$105,924</b></span>
+      <span>Remaining <b>$53,854</b></span>
+      <span>+10% contingency reserve: <b>$10,592</b></span>
     </div>
   </div>
 </div>
@@ -229,8 +229,34 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   </div>
 </section>
 
-<!-- FF&E -->
+<!-- CHANGE ORDERS -->
 <section class="block alt">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Change Orders</h2>
+      <p>Requested work outside the original contracts. Estimates are placeholders pending Christian's pricing — net of the $2,000 tile credit. Owner-supplied items live in FF&amp;E below.</p>
+    </div>
+    <div class="ledger" id="coLedger">
+      <div class="lrow head">
+        <div>Item / Scope</div>
+        <div class="lnum">Estimate</div>
+        <div class="lnum">Paid</div>
+        <div class="lnum col-rem">Remaining</div>
+        <div class="col-stat">Status</div>
+      </div>
+    </div>
+    <div class="subtotal">
+      <div>Change Orders Subtotal (net of credit)</div>
+      <div class="lnum">$2,350</div>
+      <div class="lnum paid">—</div>
+      <div class="lnum col-rem">$2,350</div>
+      <div class="col-stat"><span class="tag order">Bid pending</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FF&E -->
+<section class="block">
   <div class="block-in">
     <div class="block-head">
       <h2>Fixtures, Furnishings &amp; Equipment</h2>
@@ -247,7 +273,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     </div>
     <div class="subtotal">
       <div>FF&amp;E Subtotal (tracked)</div>
-      <div class="lnum">$6,084</div>
+      <div class="lnum">$7,674</div>
       <div class="lnum paid">$18,819</div>
       <div class="lnum col-rem">—</div>
       <div class="col-stat"><span class="tag prog">in progress</span></div>
@@ -256,7 +282,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 </section>
 
 <!-- PAYMENT LEDGER -->
-<section class="block">
+<section class="block alt">
   <div class="block-in">
     <div class="block-head">
       <h2>Payment Ledger</h2>
@@ -267,7 +293,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 </section>
 
 <!-- CATEGORY BREAKDOWN -->
-<section class="block alt">
+<section class="block">
   <div class="block-in">
     <div class="block-head">
       <h2>Where the Money Goes</h2>
@@ -278,7 +304,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 </section>
 
 <!-- REMINDERS -->
-<section class="block">
+<section class="block alt">
   <div class="block-in">
     <div class="block-head">
       <h2>Reminders</h2>
@@ -290,7 +316,7 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
 
 <footer>
   <div class="foot-brand">Tensegrity Homes <span>· 2640 S Bronson Ave</span></div>
-  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($10,198) held above the $101,984 base budget.</p>
+  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($10,592) held above the $105,924 base budget.</p>
 </footer>
 
 <script>
@@ -341,23 +367,22 @@ const ffe = [
   {name:"Cabinet Hardware",sub:"Wayfair · Kent satin brass pulls + knobs x24",bud:228,spent:227.62,stat:"done",statTxt:"Purchased"},
   {name:"Lighting Package",sub:"Pendants, sconces, vanity & flush mounts (8 fixtures)",bud:1467,spent:1467.04,stat:"done",statTxt:"Purchased"},
   {name:"Door Hardware",sub:"Kwikset Henley + tenant handles",bud:318,spent:317.65,stat:"done",statTxt:"Purchased"},
-  {name:"Replacement Range Hood",sub:"Tenant unit \u00b7 current hood not working / wrong unit \u2014 return & reorder",bud:0,spent:0,stat:"none",statTxt:"To order"},
+  {name:"Replacement Range Hood",sub:"Tenant unit \u00b7 current hood not working / wrong unit \u2014 return & reorder",bud:450,spent:0,stat:"none",statTxt:"To order"},
   {name:"Exterior Light #2",sub:"Match Caden 2-Light Black \u00b7 remove existing rear light, install two new",bud:250,spent:0,stat:"none",statTxt:"To order"},
-  {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 quote pending w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:0,spent:0,stat:"order",statTxt:"Quote pending"},
+  {name:"W/D Knobs \u2014 Brushed Nickel",sub:"Replace (not add) \u00b7 laundry area",bud:40,spent:0,stat:"none",statTxt:"To order"},
+  {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 placeholder est. \u00b7 quote pending w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:1100,spent:0,stat:"order",statTxt:"Quote pending"},
 ];
+const changeOrders = [
+  {name:"W/D tile walls \u2014 scope + tile fee",sub:"Laundry area \u00b7 confirm scope with Christian",est:1500,stat:"order",statTxt:"Bid pending"},
+  {name:"Rear exterior lighting",sub:"Remove existing light \u00b7 install two new (owner supplies fixtures)",est:450,stat:"order",statTxt:"Bid pending"},
+  {name:"Level entrance + patch exterior walls",sub:"Concrete leveling \u00b7 stucco patch",est:1200,stat:"order",statTxt:"Bid pending"},
+  {name:"Side-yard patio overhang",sub:"Left side \u00b7 possible water intrusion \u00b7 scope after SLR assessment",est:800,stat:"order",statTxt:"Bid pending"},
+  {name:"Antenna removal",sub:"Potential \u2014 confirm before CO",est:150,stat:"order",statTxt:"Bid pending"},
+  {name:"Tenant 2642 \u2014 interior door + handles",sub:"Adjust/rehang door \u00b7 install 3 handles (purchased)",est:250,stat:"order",statTxt:"Bid pending"},
+  {name:"Tile credit",sub:"Applied against CO / contract balance \u00b7 confirm in writing before signing",est:-2000,stat:"done",statTxt:"Credit"},
+];
+
 const reminders = [
- {grp:"Tenant Unit \u2014 2642",items:[
-  {txt:"<b>New range hood</b> \u2014 current unit not working / wrong unit. Return + order replacement.",sub:"From Absolute Appliances bundle (Jun 3)",own:"Michael / Ari"},
-  {txt:"<b>Door hardware</b> \u2014 interior door won\u2019t close; adjust/rehang + install handles.",sub:"Handles x3 purchased Amazon Jun 11 ($92.16)",own:"Christian"},
- ]},
- {grp:"Expression in Tile \u2014 Change Order (cost TBD)",items:[
-  {txt:"<b>W/D tile-wall scope + tile fee</b> \u2014 confirm with Christian.",own:"Christian"},
-  {txt:"<b>Remove existing rear exterior light \u2192 install two new.</b>",own:"Christian"},
-  {txt:"<b>Level entrance \u00b7 patch exterior walls.</b>",own:"Christian"},
-  {txt:"<b>Left side-yard patio overhang</b> \u2014 possible water intrusion; scope after SLR input.",own:"Christian"},
-  {txt:"<b>Antenna</b> \u2014 potentially remove.",own:"Christian"},
-  {txt:"<b>$2,000 tile credit</b> to be applied against the change order / contract balance.",sub:"Confirm in writing with Christian before signing CO",own:"Note"},
- ]},
  {grp:"SLR \u2014 Roof",items:[
   {txt:"<b>Existing project</b> \u2014 reach out: what did they observe on the roof?",own:"Michael"},
   {txt:"<b>New project</b> \u2014 patio issues / left-side overhang leak; get assessment + quote.",own:"Michael"},
@@ -365,9 +390,11 @@ const reminders = [
  {grp:"Tasks",items:[
   {txt:"<b>Return the vanity</b> \u2014 Wayfair Bilroy 24\u2019\u2019 ($791.29 credit).",own:"Michael"},
   {txt:"<b>Return the extra shower.</b>",own:"Michael"},
-  {txt:"<b>Order brushed nickel knobs</b> for W/D area.",own:"Michael"},
+  {txt:"<b>Order brushed nickel knobs</b> for W/D area (~$40).",own:"Michael"},
   {txt:"<b>Buy 1 additional exterior light</b> (match Caden 2-Light Black, ~$250).",own:"Michael"},
+  {txt:"<b>Order replacement range hood</b> + return current unit (~$450).",own:"Michael / Ari"},
   {txt:"<b>Cabinet City quote</b> \u2014 Luca 24\u2019\u2019 2-door vanity + plain white quartz top (Lily).",own:"Michael"},
+  {txt:"<b>Confirm Change Order pricing + $2K credit in writing</b> with Christian, then update budget.",own:"Michael"},
  ]},
 ];
 
@@ -420,8 +447,9 @@ const categories = [
   {name:"Painting (Little Giant)",amt:16000,color:"#34c759"},
   {name:"Architecture & Permits",amt:10600,color:"#5856d6"},
   {name:"Site / Sewer / Roof",amt:7900,color:"#B25000"},
-  {name:"FF&E (fixtures & appliances)",amt:6084,color:"#ff9500"},
+  {name:"FF&E (fixtures & appliances)",amt:7674,color:"#ff9500"},
   {name:"Landscaping (Jovel)",amt:8000,color:"#248A3D"},
+  {name:"Change Orders (net of $2K tile credit)",amt:2350,color:"#E30000"},
 ];
 
 const fmt=n=>"$"+Math.round(n).toLocaleString();
@@ -429,7 +457,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="51%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="49%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
@@ -466,6 +494,20 @@ function initDash(){
       <div class="desc">${p.desc}</div>
       <div class="meta"><span>${p.method}</span><span>${p.date}</span></div>`;
     pg.appendChild(card);
+  });
+
+  // change orders
+  const col=document.getElementById('coLedger');
+  changeOrders.forEach(c=>{
+    const isCredit=c.est<0;
+    const estTxt=isCredit?('\u2212$'+Math.abs(c.est).toLocaleString()):fmt(c.est);
+    const row=document.createElement('div');row.className='lrow';
+    row.innerHTML=`<div><div class="lname">${c.name}</div><div class="lsub">${c.sub}</div></div>
+      <div class="lnum" style="${isCredit?'color:var(--green)':''}">${estTxt}</div>
+      <div class="lnum paid">\u2014</div>
+      <div class="lnum rem col-rem" style="${isCredit?'color:var(--green)':''}">${estTxt}</div>
+      <div class="col-stat"><span class="tag ${c.stat}">${c.statTxt}</span></div>`;
+    col.appendChild(row);
   });
 
   // reminders
