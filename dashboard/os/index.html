@@ -1597,7 +1597,7 @@ function rowHTML(t, opts={}){
     <div class="body">
       <div class="title">${t.title}</div>
       <div class="meta">
-        <span class="goal-dot" style="background:${g.color}"></span>${g.label}
+        <span class="gswitch" data-gs="1" title="Tap to change group" style="cursor:pointer"><span class="goal-dot" style="background:${g.color}"></span>${g.label}</span>
         ${dueChip(t)}
         ${opts.verb?`<span class="chip verb-${t.buyBackVerb}">${t.buyBackVerb}</span>`:""}
         ${next}
@@ -1739,6 +1739,15 @@ document.body.addEventListener("click", e=>{
     const i=peers.indexOf(t), j=i+Number(mv.dataset.mv);
     if(j>=0 && j<peers.length){ const tmp=peers[i].ord; peers[i].ord=peers[j].ord; peers[j].ord=tmp; save(); renderTasks(); }
     return;
+  }
+  const gs=e.target.closest(".gswitch");
+  if(gs){
+    const t=S.tasks.find(x=>x.id===gs.closest(".row").dataset.id);
+    const ids=S.goals.map(g=>g.id);
+    t.goalTag=ids[(ids.indexOf(t.goalTag)+1)%ids.length];
+    const peers=S.tasks.filter(x=>x.type==="DO"&&x.goalTag===t.goalTag&&x.id!==t.id);
+    t.ord=peers.length?Math.min(...peers.map(x=>x.ord??0))-1:0;
+    save(); renderAll(); return;
   }
   const pn=e.target.closest("[data-pin]");
   if(pn){
