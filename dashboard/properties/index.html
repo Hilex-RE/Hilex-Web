@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hilex — Properties</title>
+<style>
+:root{
+  --white:#FFFFFF; --gray:#F5F5F7; --ink:#1D1D1F; --secondary:#6E6E73;
+  --muted:#86868B; --hairline:#D2D2D7; --blue:#0071E3; --red:#E30000;
+  --green:#248A3D; --amber:#B25000;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Monaco,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.47}
+
+#gate{position:fixed;inset:0;background:var(--white);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .5s ease}
+#gate.hidden{opacity:0;pointer-events:none}
+.gate-brand{font-size:21px;font-weight:600;letter-spacing:-.02em;margin-bottom:48px;color:var(--ink)}
+.gate-brand span{color:var(--muted);font-weight:400}
+.gate-title{font-size:32px;font-weight:600;letter-spacing:-.02em;margin-bottom:8px;text-align:center}
+.gate-sub{font-size:17px;color:var(--secondary);margin-bottom:36px;text-align:center}
+.gate-form{display:flex;flex-direction:column;gap:14px;width:100%;max-width:320px}
+#code{font-family:var(--font);font-size:17px;padding:14px 18px;border:1px solid var(--hairline);border-radius:12px;outline:none;text-align:center;transition:border-color .2s}
+#code:focus{border-color:var(--blue)}
+.gate-form.shake{animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.gate-btn{font-family:var(--font);font-size:17px;font-weight:500;color:#fff;background:var(--blue);border:none;border-radius:980px;padding:14px;cursor:pointer;transition:background .2s}
+.gate-btn:hover{background:#0077ed}
+.gate-err{color:var(--red);font-size:14px;text-align:center;min-height:18px}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--hairline)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.nav-brand span{color:var(--muted);font-weight:400}
+.nav-meta{font-size:12px;color:var(--muted)}
+
+.hero{max-width:1100px;margin:0 auto;padding:96px 24px 56px;text-align:center}
+.eyebrow{font-size:14px;font-weight:600;color:var(--blue);letter-spacing:.01em;margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-size:clamp(40px,7vw,68px);font-weight:600;letter-spacing:-.03em;line-height:1.05;margin-bottom:18px}
+.hero-sub{font-size:clamp(17px,2.5vw,21px);color:var(--secondary);max-width:560px;margin:0 auto;font-weight:400}
+
+.portfolio-stats{max-width:1100px;margin:0 auto;padding:0 24px 40px;display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.pstat{background:var(--gray);border-radius:18px;padding:20px 28px;min-width:150px;text-align:center}
+.pstat-val{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.pstat-val.paid{color:var(--green)}
+.pstat-val.rem{color:var(--amber)}
+.pstat-lbl{font-size:13px;color:var(--muted);margin-top:4px}
+
+.grid-wrap{max-width:1100px;margin:0 auto;padding:24px 24px 96px}
+.section-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:32px 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.pcard{display:block;text-decoration:none;color:inherit;background:var(--white);border:1px solid var(--hairline);border-radius:24px;padding:28px;transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+.pcard.locked{opacity:.55;cursor:default;pointer-events:none}
+.pcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.pcard-name{font-size:21px;font-weight:600;letter-spacing:-.01em}
+.pcard-loc{font-size:14px;color:var(--muted);margin-top:3px}
+.pcard-status{font-size:11px;font-weight:600;padding:5px 11px;border-radius:980px;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.pcard-status.active{background:rgba(36,138,61,.12);color:var(--green)}
+.pcard-status.soon{background:rgba(134,134,139,.14);color:var(--secondary)}
+.pcard-bar{height:10px;background:var(--hairline);border-radius:980px;overflow:hidden;margin-bottom:16px}
+.pcard-bar-fill{height:100%;background:linear-gradient(90deg,#34c759,#248A3D);border-radius:980px;transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+.pcard-figs{display:flex;justify-content:space-between;font-size:13px}
+.pcard-fig b{display:block;font-size:18px;font-weight:600;letter-spacing:-.01em;margin-top:2px}
+.pcard-fig .paid{color:var(--green)}
+.pcard-fig .rem{color:var(--amber)}
+.pcard-cta{margin-top:18px;font-size:14px;font-weight:500;color:var(--blue);display:flex;align-items:center;gap:5px}
+.pcard-cta::after{content:"→";transition:transform .2s}
+.pcard:hover .pcard-cta::after{transform:translateX(3px)}
+
+footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);background:var(--gray)}
+.foot-brand{font-size:15px;font-weight:600;margin-bottom:8px}
+.foot-brand span{color:var(--muted);font-weight:400}
+.foot-note{font-size:12px;color:var(--muted);max-width:560px;margin:0 auto;line-height:1.6}
+
+@media(max-width:640px){
+  .nav-meta{display:none}
+  .hero{padding:64px 20px 40px}
+}
+@media print{#gate{display:none!important}nav{position:static}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-brand"><a href="../" style="text-decoration:none;color:inherit">Hilex</a> <span>· Properties</span></div>
+  <div class="gate-title">Property Dashboards</div>
+  <div class="gate-sub">Enter your access code to continue</div>
+  <div class="gate-form" id="gateForm">
+    <input type="password" id="code" placeholder="Access code" autocomplete="off" autofocus>
+    <button class="gate-btn" onclick="checkCode()">View Portfolio</button>
+    <div class="gate-err" id="gateErr"></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand"><a href="../" style="text-decoration:none;color:inherit">Hilex</a> <span>· Portfolio</span></div>
+    <div class="nav-meta" id="updated"></div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="eyebrow">Private Dashboard</div>
+  <h1>Property Portfolio</h1>
+  <p class="hero-sub">A live view of every active project. Click any property to dig into its full expense ledger.</p>
+</div>
+
+<div class="portfolio-stats">
+  <div class="pstat"><div class="pstat-val">$168,690</div><div class="pstat-lbl">Total Budget</div></div>
+  <div class="pstat"><div class="pstat-val paid">$52,070</div><div class="pstat-lbl">Paid to Date</div></div>
+  <div class="pstat"><div class="pstat-val rem">$116,620</div><div class="pstat-lbl">Remaining</div></div>
+  <div class="pstat"><div class="pstat-val">2</div><div class="pstat-lbl">Active Projects</div></div>
+</div>
+
+<div class="grid-wrap">
+  <div class="section-label">Real Estate</div>
+  <div class="cards">
+
+    <a href="../bronson/" class="pcard">
+      <div class="pcard-top">
+        <div>
+          <div class="pcard-name">2640 S Bronson Ave</div>
+          <div class="pcard-loc">Los Angeles, CA 90018</div>
+        </div>
+        <div class="pcard-status active">In Renovation</div>
+      </div>
+      <div class="pcard-bar"><div class="pcard-bar-fill" style="width:0%" data-w="49"></div></div>
+      <div class="pcard-figs">
+        <div class="pcard-fig">Budget <b>$105,924</b></div>
+        <div class="pcard-fig">Paid <b class="paid">$52,070</b></div>
+        <div class="pcard-fig">Remaining <b class="rem">$53,854</b></div>
+      </div>
+      <div class="pcard-cta">Open dashboard</div>
+    </a>
+
+    <a href="../harcourt/" class="pcard">
+      <div class="pcard-top">
+        <div>
+          <div class="pcard-name">Harcourt — Unit #3</div>
+          <div class="pcard-loc">2810 &amp; 2808 S Harcourt Ave · ADU</div>
+        </div>
+        <div class="pcard-status" style="background:rgba(178,80,0,.12);color:var(--amber)">Quoting</div>
+      </div>
+      <div class="pcard-bar"><div class="pcard-bar-fill" style="width:0%" data-w="0"></div></div>
+      <div class="pcard-figs">
+        <div class="pcard-fig">Budget <b>$62,766</b></div>
+        <div class="pcard-fig">Paid <b class="paid">$0</b></div>
+        <div class="pcard-fig">Remaining <b class="rem">$62,766</b></div>
+      </div>
+      <div class="pcard-cta">Open dashboard</div>
+    </a>
+
+    <div class="pcard locked">
+      <div class="pcard-top">
+        <div>
+          <div class="pcard-name">Next Property</div>
+          <div class="pcard-loc">Add when ready</div>
+        </div>
+        <div class="pcard-status soon">Placeholder</div>
+      </div>
+      <div class="pcard-bar"><div class="pcard-bar-fill" style="width:0%"></div></div>
+      <div class="pcard-figs">
+        <div class="pcard-fig">Budget <b>—</b></div>
+        <div class="pcard-fig">Paid <b>—</b></div>
+        <div class="pcard-fig">Remaining <b>—</b></div>
+      </div>
+      <div class="pcard-cta" style="color:var(--muted)">Coming soon</div>
+    </div>
+
+  </div>
+
+  </div>
+
+<footer>
+  <div class="foot-brand">Hilex <span>· Private Portfolio</span></div>
+  <p class="foot-note">Confidential financial dashboards for Michael Abraham. Access-gated and separate from any public website. Figures reconciled from project payment ledgers.</p>
+</footer>
+
+<script>
+const ACCESS_CODE = "Hilex##2026";
+function checkCode(){
+  const v=document.getElementById('code').value.trim();
+  if(v===ACCESS_CODE){sessionStorage.setItem('hilex_auth','1');reveal();}
+  else{const f=document.getElementById('gateForm');f.classList.add('shake');
+    document.getElementById('gateErr').textContent="Incorrect code. Try again.";
+    setTimeout(()=>f.classList.remove('shake'),400);}
+}
+function reveal(){document.getElementById('gate').classList.add('hidden');setTimeout(init,300);}
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')checkCode()});
+if(sessionStorage.getItem('hilex_auth')==='1'){document.getElementById('gate').classList.add('hidden');}
+function init(){
+  document.getElementById('updated').textContent="Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.querySelectorAll('.pcard-bar-fill[data-w]').forEach(el=>{setTimeout(()=>{el.style.width=el.dataset.w+"%";},200);});
+}
+if(sessionStorage.getItem('hilex_auth')==='1'){init();}
+</script>
+</body>
+</html>
