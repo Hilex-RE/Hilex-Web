@@ -253,6 +253,7 @@
     <div class="brand">Morning Focus <span>· Michael's OS</span></div>
   </a>
   <div class="topbar-right">
+    <span id="stamp" style="font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums"></span>
     <span class="save-dot" id="saveDot">●</span>
     <button id="refreshBtn" title="Refresh" style="border:0;background:rgba(118,118,128,0.12);width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;color:var(--ink2);font-family:inherit">⟳</button>
   </div>
@@ -1849,6 +1850,9 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
   }
 });
 document.getElementById("refreshBtn").addEventListener("click", ()=>location.reload());
+const now=new Date();
+document.getElementById("stamp").textContent =
+  now.toLocaleDateString("en-US",{month:"short",day:"numeric"})+" · "+now.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
 document.getElementById("exportBtn").addEventListener("click", ()=>{
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));
