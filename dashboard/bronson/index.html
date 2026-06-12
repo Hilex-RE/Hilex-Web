@@ -180,10 +180,11 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <h1>2640 S Bronson Ave</h1>
   <p class="hero-sub">Los Angeles, CA 90018 · Full interior remodel &amp; site work, including rear unit at 2642. Live expense tracking.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-val">$105,924</div><div class="stat-lbl">Total Budget</div></div>
+    <div class="stat"><div class="stat-val">$98,975</div><div class="stat-lbl">Total Budget</div></div>
     <div class="stat"><div class="stat-val paid">$52,070</div><div class="stat-lbl">Paid to Date</div></div>
-    <div class="stat"><div class="stat-val rem">$53,854</div><div class="stat-lbl">Remaining</div></div>
-    <div class="stat"><div class="stat-val">49%</div><div class="stat-lbl">Complete</div></div>
+    <div class="stat"><div class="stat-val rem">$46,905</div><div class="stat-lbl">Remaining</div></div>
+    <div class="stat"><div class="stat-val">$2,350</div><div class="stat-lbl">Change Orders</div></div>
+    <div class="stat"><div class="stat-val">53%</div><div class="stat-lbl">Complete</div></div>
   </div>
 </div>
 
@@ -192,13 +193,13 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   <div class="progress-card">
     <div class="progress-top">
       <h3>Budget Consumed</h3>
-      <div class="progress-pct" id="pct">49%</div>
+      <div class="progress-pct" id="pct">53%</div>
     </div>
     <div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
     <div class="progress-foot">
-      <span>Paid <b>$52,070</b> of <b>$105,924</b></span>
-      <span>Remaining <b>$53,854</b></span>
-      <span>+10% contingency reserve: <b>$10,592</b></span>
+      <span>Paid <b>$52,070</b> of <b>$98,975</b></span>
+      <span>Remaining <b>$46,905</b></span>
+      <span>+10% contingency reserve: <b>$9,898</b></span>
     </div>
   </div>
 </div>
@@ -221,10 +222,10 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
     </div>
     <div class="subtotal">
       <div>Contractors Subtotal</div>
-      <div class="lnum">$95,900</div>
+      <div class="lnum">$88,951</div>
       <div class="lnum paid">$33,251</div>
-      <div class="lnum col-rem">$62,649</div>
-      <div class="col-stat"><span class="tag prog">35% paid</span></div>
+      <div class="lnum col-rem">$55,700</div>
+      <div class="col-stat"><span class="tag prog">37% paid</span></div>
     </div>
   </div>
 </section>
@@ -314,9 +315,42 @@ footer{padding:48px 24px;text-align:center;border-top:1px solid var(--hairline);
   </div>
 </section>
 
+<!-- OPTIONAL / DEFERRED -->
+<section class="block">
+  <div class="block-in">
+    <div class="block-head">
+      <h2>Optional / Deferred Expenses</h2>
+      <p>Not included in the base budget above. Tracked separately — fund only if elected.</p>
+    </div>
+    <div class="ledger">
+      <div class="lrow head">
+        <div>Item / Scope</div>
+        <div class="lnum">Estimate</div>
+        <div class="lnum">Paid</div>
+        <div class="lnum col-rem">Remaining</div>
+        <div class="col-stat">Status</div>
+      </div>
+      <div class="lrow">
+        <div><div class="lname">Little Giant — Exterior</div><div class="lsub">Exterior paint · optional, owner-elected</div></div>
+        <div class="lnum">$7,600</div>
+        <div class="lnum paid">—</div>
+        <div class="lnum rem col-rem">$7,600</div>
+        <div class="col-stat"><span class="tag none">Optional</span></div>
+      </div>
+    </div>
+    <div class="subtotal">
+      <div>Optional Subtotal (excluded from base budget)</div>
+      <div class="lnum">$7,600</div>
+      <div class="lnum paid">—</div>
+      <div class="lnum col-rem">$7,600</div>
+      <div class="col-stat"><span class="tag none">Not in total</span></div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="foot-brand">Tensegrity Homes <span>· 2640 S Bronson Ave</span></div>
-  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($10,592) held above the $105,924 base budget.</p>
+  <p class="foot-note">Private financial dashboard for owners Michael Abraham &amp; Ari Wintraub. Buyer entity: Dalton WA, LLC. Figures reconciled from the project payment ledger and are confidential. Contingency reserve of 10% ($9,898) held above the $98,975 base budget. Optional/deferred items are excluded from the base budget.</p>
 </footer>
 
 <script>
@@ -345,11 +379,10 @@ if(sessionStorage.getItem('bronson_auth')==='1'){document.getElementById('gate')
 const contractors = [
   {name:"Expression in Tile",sub:"Christian Partida · 2 baths, kitchen, floors, ceiling · $2,000 tile credit pending (see Change Order)",est:55000,paid:22000,stat:"prog",statTxt:"In progress"},
   {name:"Tensegrity Homes",sub:"Lior Schapiro · As-built, plans, design",est:9000,paid:9000,stat:"done",statTxt:"Complete"},
-  {name:"LADBS + Permits",sub:"Plan check & submittal fees",est:1600,paid:651.06,stat:"prog",statTxt:"In progress"},
+  {name:"LADBS + Permits",sub:"Plan check, submittal & issuance — permits issued",est:651.06,paid:651.06,stat:"done",statTxt:"Complete"},
   {name:"Jose Mata",sub:"Demo / hauling — gate, garage, awning",est:1600,paid:1600,stat:"done",statTxt:"Complete"},
   {name:"Little Giant — Interior",sub:"Interior paint",est:4800,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Little Giant — Skim Coat",sub:"Popcorn removal + skim coat",est:3600,paid:0,stat:"none",statTxt:"Not started"},
-  {name:"Little Giant — Exterior",sub:"Exterior paint",est:7600,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Jovel",sub:"Landscaping",est:8000,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Anton P.",sub:"Roof maintenance",est:1800,paid:0,stat:"none",statTxt:"Not started"},
   {name:"Sewer Line Services",sub:"Top hat lateral seal",est:4500,paid:0,stat:"none",statTxt:"Not started"},
@@ -370,7 +403,7 @@ const ffe = [
   {name:"Replacement Range Hood",sub:"Tenant unit \u00b7 current hood not working / wrong unit \u2014 return & reorder",bud:450,spent:0,stat:"none",statTxt:"To order"},
   {name:"Exterior Light #2",sub:"Match Caden 2-Light Black \u00b7 remove existing rear light, install two new",bud:250,spent:0,stat:"none",statTxt:"To order"},
   {name:"W/D Knobs \u2014 Brushed Nickel",sub:"Replace (not add) \u00b7 laundry area",bud:40,spent:0,stat:"none",statTxt:"To order"},
-  {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 placeholder est. \u00b7 quote pending w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:1100,spent:0,stat:"order",statTxt:"Quote pending"},
+  {name:"Primary Bath Vanity \u2014 Cabinet City",sub:"Luca 24\u2019\u2019 2-door + plain white quartz top (CC fabricates) \u00b7 quote confirmed w/ Lily \u00b7 Wayfair Bilroy to be returned (\u2212$791.29 credit)",bud:1100,spent:0,stat:"order",statTxt:"Quote confirmed"},
 ];
 const changeOrders = [
   {name:"W/D tile walls \u2014 scope + tile fee",sub:"Laundry area \u00b7 confirm scope with Christian",est:1500,stat:"order",statTxt:"Bid pending"},
@@ -444,8 +477,8 @@ const payments = [
 ];
 const categories = [
   {name:"Expression in Tile (construction)",amt:55000,color:"#0071E3"},
-  {name:"Painting (Little Giant)",amt:16000,color:"#34c759"},
-  {name:"Architecture & Permits",amt:10600,color:"#5856d6"},
+  {name:"Painting (Little Giant)",amt:8400,color:"#34c759"},
+  {name:"Architecture & Permits",amt:9651,color:"#5856d6"},
   {name:"Site / Sewer / Roof",amt:7900,color:"#B25000"},
   {name:"FF&E (fixtures & appliances)",amt:7674,color:"#ff9500"},
   {name:"Landscaping (Jovel)",amt:8000,color:"#248A3D"},
@@ -457,7 +490,7 @@ const fmt2=n=>"$"+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFra
 
 function initDash(){
   document.getElementById('updated').textContent = "Updated "+new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  setTimeout(()=>{document.getElementById('barFill').style.width="49%";},200);
+  setTimeout(()=>{document.getElementById('barFill').style.width="53%";},200);
 
   // contractors
   const cl=document.getElementById('contractorLedger');
