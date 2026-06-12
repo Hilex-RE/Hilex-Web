@@ -1,0 +1,19 @@
+name: Morning Focus Brief
+on:
+  schedule:
+    - cron: '0 14 * * *'   # 7:00 AM Pacific (PDT)
+  workflow_dispatch: {}      # manual run button
+
+jobs:
+  brief:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install requests
+      - name: Generate and send Morning Focus
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
+        run: python scripts/morning_brief.py
