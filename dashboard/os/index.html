@@ -413,6 +413,56 @@ const SEED = {
  ],
  "tasks": [
   {
+   "title": "Ania — reply: Westwood comps + pricing",
+   "type": "DO",
+   "goalTag": "amre",
+   "isProject": false,
+   "nextAction": "",
+   "dueDate": "2026-06-12",
+   "buyBackVerb": "Do",
+   "done": false
+  },
+  {
+   "title": "Wes — call back (Quo lead, 949-686-1235)",
+   "type": "DO",
+   "goalTag": "amre",
+   "isProject": false,
+   "nextAction": "",
+   "dueDate": "2026-06-12",
+   "buyBackVerb": "Do",
+   "done": false
+  },
+  {
+   "title": "Nueva Vista — review CTC title order + market insights",
+   "type": "DO",
+   "goalTag": "nuevavista",
+   "isProject": false,
+   "nextAction": "",
+   "dueDate": "2026-06-13",
+   "buyBackVerb": "Do",
+   "done": false
+  },
+  {
+   "title": "Bronson — appliances decision (2640 S Bronson)",
+   "type": "DO",
+   "goalTag": "bronson",
+   "isProject": false,
+   "nextAction": "",
+   "dueDate": null,
+   "buyBackVerb": "Do",
+   "done": false
+  },
+  {
+   "title": "Private Exclusive — submit for BH sales meeting Jun 17",
+   "type": "DO",
+   "goalTag": "amre",
+   "isProject": false,
+   "nextAction": "",
+   "dueDate": "2026-06-16",
+   "buyBackVerb": "Do",
+   "done": false
+  },
+  {
    "title": "Lorenzo — call",
    "type": "DO",
    "goalTag": "amre",
@@ -462,7 +512,7 @@ const SEED = {
    "goalTag": "harcourt",
    "isProject": false,
    "nextAction": "",
-   "dueDate": null,
+   "dueDate": "2026-06-13",
    "buyBackVerb": "Do",
    "done": false,
    "focus": false
@@ -1579,7 +1629,7 @@ const SEED = {
 SEED.tasks.forEach((t,i)=>t.id="t"+i);
 
 /* ───────────────── State + persistence ───────────────── */
-const KEY="focus:v4";
+const KEY="focus:v5";
 let S;
 try{ S = JSON.parse(localStorage.getItem(KEY)) || structuredClone(SEED); }
 catch(e){ S = structuredClone(SEED); }
