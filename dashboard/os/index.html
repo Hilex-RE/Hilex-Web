@@ -170,6 +170,12 @@
   .lev.l1 i:nth-child(1){background:var(--gray);}
   .lev.l2 i:nth-child(-n+2){background:var(--orange);}
   .lev.l3 i{background:var(--blue);}
+  /* ── Group picker sheet ── */
+  .sheetBack{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:200;}
+  .sheet{position:fixed;left:0;right:0;bottom:0;z-index:201;background:var(--card);border-radius:18px 18px 0 0;padding:14px 16px 30px;box-shadow:0 -8px 30px rgba(0,0,0,0.15);max-height:70vh;overflow:auto;}
+  .sheet .t{font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:8px;text-align:center;}
+  .sheet .opt{display:flex;align-items:center;gap:10px;padding:12px 6px;border-bottom:0.5px solid var(--hairline);font-size:15px;font-weight:500;cursor:pointer;}
+  .sheet .opt:last-child{border-bottom:0;}
   /* ── Pin to Focus ── */
   .pin{font-size:17px; color:#D8D8DC; cursor:pointer; flex-shrink:0; margin-top:1px; user-select:none; transition:transform .25s var(--spring), color .2s;}
   .pin.on{color:var(--orange);}
@@ -288,6 +294,11 @@
 
     <h2 class="sec">The 3 — only you can do these</h2>
     <div class="card hero" id="the3"></div>
+
+    <div id="starWrap" class="hide">
+      <h2 class="sec">Starred</h2>
+      <div class="card" id="starred"></div>
+    </div>
 
     <h2 class="sec">Plus one each</h2>
     <div class="card" id="plusOnes"></div>
@@ -1645,7 +1656,11 @@ function renderFocus(){
   document.getElementById("the3").innerHTML =
     the3.length ? the3.map((t,i)=>rowHTML(t,{n:i+1,pin:true})).join("") : `<div class="empty">Clear. Go sell something.</div>`;
 
-  const used = new Set(the3.map(t=>t.id));
+  const starOver = pinned.slice(3);
+  document.getElementById("starWrap").classList.toggle("hide", !starOver.length);
+  document.getElementById("starred").innerHTML = starOver.map(t=>rowHTML(t,{pin:true})).join("");
+
+  const used = new Set(the3.concat(starOver).map(t=>t.id));
   const pick = f => o.find(t=>!used.has(t.id)&&f(t));
   const ones = [
     pick(t=>t.goalTag==="health"),
@@ -1725,6 +1740,23 @@ function renderLibrary(){
 function renderAll(){ renderFocus(); renderTasks(); renderLibrary(); }
 
 /* ───────────────── Events ───────────────── */
+function openSheet(id){
+  const t=S.tasks.find(x=>x.id===id);
+  const back=document.createElement("div"); back.className="sheetBack";
+  const sh=document.createElement("div"); sh.className="sheet";
+  sh.innerHTML='<div class="t">Move to…</div>'+S.goals.map(g=>
+    '<div class="opt" data-g="'+g.id+'"><span class="goal-dot" style="background:'+g.color+'"></span>'+g.label+(g.id===t.goalTag?' ✓':'')+'</div>').join("");
+  function close(){back.remove();sh.remove();}
+  back.addEventListener("click",close);
+  sh.addEventListener("click",e=>{
+    const o=e.target.closest(".opt"); if(!o) return;
+    t.goalTag=o.dataset.g;
+    const peers=S.tasks.filter(x=>x.type==="DO"&&x.goalTag===t.goalTag&&x.id!==t.id);
+    t.ord=peers.length?Math.min(...peers.map(x=>x.ord??0))-1:0;
+    save(); renderAll(); close();
+  });
+  document.body.appendChild(back); document.body.appendChild(sh);
+}
 function showView(v){
   document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
   ["focus","tasks","library"].forEach(x=>document.getElementById("v-"+x).classList.toggle("hide", x!==v));
@@ -1742,14 +1774,7 @@ document.body.addEventListener("click", e=>{
     return;
   }
   const gs=e.target.closest(".gswitch");
-  if(gs){
-    const t=S.tasks.find(x=>x.id===gs.closest(".row").dataset.id);
-    const ids=S.goals.map(g=>g.id);
-    t.goalTag=ids[(ids.indexOf(t.goalTag)+1)%ids.length];
-    const peers=S.tasks.filter(x=>x.type==="DO"&&x.goalTag===t.goalTag&&x.id!==t.id);
-    t.ord=peers.length?Math.min(...peers.map(x=>x.ord??0))-1:0;
-    save(); renderAll(); return;
-  }
+  if(gs){ openSheet(gs.closest(".row").dataset.id); return; }
   const pn=e.target.closest("[data-pin]");
   if(pn){
     const t=S.tasks.find(x=>x.id===pn.closest(".row").dataset.id);
