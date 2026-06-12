@@ -170,6 +170,10 @@
   .lev.l1 i:nth-child(1){background:var(--gray);}
   .lev.l2 i:nth-child(-n+2){background:var(--orange);}
   .lev.l3 i{background:var(--blue);}
+  /* ── Pin to Focus ── */
+  .pin{font-size:17px; color:#D8D8DC; cursor:pointer; flex-shrink:0; margin-top:1px; user-select:none; transition:transform .25s var(--spring), color .2s;}
+  .pin.on{color:var(--orange);}
+  .pin:active{transform:scale(1.25);}
   /* ── Reorder arrows ── */
   .ord{display:flex; flex-direction:column; gap:3px; flex-shrink:0; margin-top:2px;}
   .ord button{
@@ -244,9 +248,13 @@
 </script>
 
 <div class="topbar">
-  <div class="brand">Morning Focus <span>· Michael's OS</span></div>
+  <a href="../" title="Back to Dashboard" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:7px">
+    <span style="color:var(--blue);font-size:22px;line-height:1;font-weight:400">‹</span>
+    <div class="brand">Morning Focus <span>· Michael's OS</span></div>
+  </a>
   <div class="topbar-right">
     <span class="save-dot" id="saveDot">●</span>
+    <button id="refreshBtn" title="Refresh" style="border:0;background:rgba(118,118,128,0.12);width:28px;height:28px;border-radius:50%;font-size:14px;cursor:pointer;color:var(--ink2);font-family:inherit">⟳</button>
   </div>
 </div>
 
@@ -1595,6 +1603,7 @@ function rowHTML(t, opts={}){
         ${next}
       </div>
     </div>
+    ${(opts.pin||opts.move)?`<div class="pin ${t.focus?"on":""}" data-pin="1" title="Pin to The 3">★</div>`:""}
     <div class="lev l${L}" title="Leverage ${L}/3"><i></i><i></i><i></i></div>
     ${opts.move?`<div class="ord"><button data-mv="-1" aria-label="Move up">▲</button><button data-mv="1" aria-label="Move down">▼</button></div>`:""}
   </div>`;
@@ -1629,10 +1638,11 @@ function renderFocus(){
   }).join("");
 
   const o = open();
-  const onlyMe = o.filter(t=>t.buyBackVerb==="Do");
-  const the3 = onlyMe.slice(0,3);
+  const pinned = o.filter(t=>t.focus);
+  const onlyMe = o.filter(t=>!t.focus && t.buyBackVerb==="Do");
+  const the3 = pinned.concat(onlyMe).slice(0,3);
   document.getElementById("the3").innerHTML =
-    the3.length ? the3.map((t,i)=>rowHTML(t,{n:i+1})).join("") : `<div class="empty">Clear. Go sell something.</div>`;
+    the3.length ? the3.map((t,i)=>rowHTML(t,{n:i+1,pin:true})).join("") : `<div class="empty">Clear. Go sell something.</div>`;
 
   const used = new Set(the3.map(t=>t.id));
   const pick = f => o.find(t=>!used.has(t.id)&&f(t));
@@ -1730,6 +1740,11 @@ document.body.addEventListener("click", e=>{
     if(j>=0 && j<peers.length){ const tmp=peers[i].ord; peers[i].ord=peers[j].ord; peers[j].ord=tmp; save(); renderTasks(); }
     return;
   }
+  const pn=e.target.closest("[data-pin]");
+  if(pn){
+    const t=S.tasks.find(x=>x.id===pn.closest(".row").dataset.id);
+    t.focus=!t.focus; save(); renderAll(); return;
+  }
   const chk=e.target.closest(".chk");
   if(chk){
     const id=chk.closest(".row").dataset.id;
@@ -1780,6 +1795,30 @@ qTag.addEventListener("click", ()=>{
 });
 function qAdd(){
   let text=qIn.value.trim(); if(!text) return;
+  /* commands: "prioritize X" / "pin X" / "focus X" / "top X" / "done X" */
+  const cmd=text.match(/^(prioritize|focus|pin|top|done|complete|finish)\s+(.+)/i);
+  if(cmd){
+    const words=cmd[2].toLowerCase().replace(/^the\s+/,"").split(/\s+/).filter(w=>w.length>2);
+    let best=null, bs=0;
+    S.tasks.filter(t=>t.type==="DO"&&!t.done).forEach(t=>{
+      const tl=t.title.toLowerCase();
+      const s=words.reduce((a,w)=>a+(tl.includes(w)?w.length:0),0);
+      if(s>bs){bs=s; best=t;}
+    });
+    if(best && bs>=4){
+      const verb=cmd[1].toLowerCase();
+      if(["done","complete","finish"].includes(verb)){ best.done=true; best.doneAt=today.toISOString().slice(0,10); }
+      else {
+        best.focus=true;
+        const peers=S.tasks.filter(x=>x.type==="DO"&&x.goalTag===best.goalTag);
+        best.ord=Math.min(...peers.map(x=>x.ord??0))-1;
+      }
+      qIn.value=""; qOverride=null; qRefresh(); save(); renderAll(); return;
+    }
+  }
+  /* "!" prefix pins a new task straight into The 3 */
+  const pinNew = text.startsWith("!");
+  if(pinNew) text=text.slice(1).trim();
   const tags=[...text.matchAll(/#(\w+)/g)].map(m=>m[1].toLowerCase());
   text=text.replace(/#\w+/g,"").replace(/\s+/g," ").trim();
   const gid=qTag.dataset.gid||classify(text);
@@ -1787,7 +1826,7 @@ function qAdd(){
   const topOrd=peers.length?Math.min(...peers.map(x=>x.ord??0))-1:0;
   S.tasks.unshift({
     id:"t"+Date.now(), title:text, type:"DO", goalTag:gid, isProject:false,
-    nextAction:"", dueDate:parseDue(text), buyBackVerb:"Do", done:false, tags:tags, ord:topOrd
+    nextAction:"", dueDate:parseDue(text), buyBackVerb:"Do", done:false, tags:tags, ord:topOrd, focus:pinNew
   });
   qIn.value=""; qOverride=null; qRefresh(); save(); renderAll();
 }
@@ -1800,6 +1839,7 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
     S=structuredClone(SEED); save(); renderAll();
   }
 });
+document.getElementById("refreshBtn").addEventListener("click", ()=>location.reload());
 document.getElementById("exportBtn").addEventListener("click", ()=>{
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:"application/json"}));
