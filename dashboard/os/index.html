@@ -102,7 +102,7 @@
   .verb-Delegate{background:rgba(94,92,230,0.12); color:var(--indigo);}
   .verb-Automate{background:rgba(48,209,88,0.13); color:#1F9D49;}
   .verb-Delete{background:rgba(142,142,147,0.14); color:var(--gray);}
-  .goal-dot{width:8px; height:8px; border-radius:50%; display:inline-block;}
+  .goal-dot{width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px;}
   /* ── Constraint banner ── */
   .constraint{
     background:var(--card); border-radius:14px; padding:14px 16px; margin-bottom:4px;
@@ -272,6 +272,7 @@
       <button data-v="focus" class="on">Focus</button>
       <button data-v="tasks">Tasks</button>
       <button data-v="library">Library</button>
+      <button data-v="completed">Completed</button>
     </div>
   </div>
 
@@ -336,6 +337,12 @@
     <div class="card" id="libSome"></div>
     <h2 class="sec">Think — Sunday review only</h2>
     <div class="card" id="libThink"></div>
+  </div>
+
+  <!-- ════ COMPLETED VIEW ════ -->
+  <div id="v-completed" class="hide">
+    <h2 class="sec">Completed <span id="completedCount" style="opacity:0.45;font-weight:600"></span></h2>
+    <div class="card" id="completedList"></div>
   </div>
 
   <div class="footer">
@@ -1616,16 +1623,13 @@ const SEED = {
   {"title": "Sphere — send Text Check-In messages", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Ania — import open-house contacts", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "AMRE — review / repurpose saved IG reel", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Delegate", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://www.instagram.com/reel/DZivjiLBuWH/"},
-  {"title": "LAPL — register for library e-card", "type": "DO", "goalTag": "family", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://www.lapl.org/about-lapl/contact-us/e-card/e-card-registration"},
   {"title": "Cabinet City — confirm Harcourt order (20% Slim White Oak)", "type": "DO", "goalTag": "harcourt", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Tensegrity — pay Invoice #58 + decide laundry faucets", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Buffer — fix BizColab Facebook connection", "type": "DO", "goalTag": "bizcolab", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Bronson — order glass shelf (Ferguson)", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://www.fergusonhome.com/glass-warehouse-tbwh-36/s2015494"},
   {"title": "Bronson — order black vinyl window 36×30", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
-  {"title": "Bronson — primary bath vanity decision", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Bronson — check water heater", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Bronson — order wood door + trim", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
-  {"title": "Bronson — brushed nickel for washer / dryer", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass"},
   {"title": "Haps Summer Party — Jun 20, 5–9pm West Adams", "type": "DO", "goalTag": "haps", "isProject": false, "nextAction": "", "dueDate": "2026-06-20", "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://haps.club/events/summer-solstice-in-the-garden/"},
   {"title": "RH Yountville — book ADAMVS vintner dinner?", "type": "DO", "goalTag": "family", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://www.exploretock.com/rhwinevault/event/610223"},
   {"title": "Life Lounge — evaluate premium membership", "type": "SOMEDAY", "goalTag": "family", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://life-lounge.mn.co/plans/1963295"},
@@ -1672,6 +1676,13 @@ try{
     var _lp={"amre — review / repurpose saved ig reel": "https://www.instagram.com/reel/DZivjiLBuWH/", "lapl — register for library e-card": "https://www.lapl.org/about-lapl/contact-us/e-card/e-card-registration", "bronson — order glass shelf (ferguson)": "https://www.fergusonhome.com/glass-warehouse-tbwh-36/s2015494", "haps summer party — jun 20, 5–9pm west adams": "https://haps.club/events/summer-solstice-in-the-garden/", "rh yountville — book adamvs vintner dinner?": "https://www.exploretock.com/rhwinevault/event/610223", "life lounge — evaluate premium membership": "https://life-lounge.mn.co/plans/1963295", "people — new l.a. ferris wheel (west harbor, 2027)": "https://apple.news/A3k_8C96MQMmjXlssxXHqfw", "la times — new ca transit-housing density law (july)": "https://apple.news/ARtcJvJNZRo2Gv63in_xKcg", "wisdom of the bullfrog — bonus material": "https://wisdomofthebullfrog.com/", "outside app — partners": "https://ousideapp.com/partners"};
     (S.tasks||[]).forEach(function(t){ var k=(t.title||"").trim().toLowerCase(); if(_lp[k]&&!t.link)t.link=_lp[k]; if(!t.tags&&(t.type==="REFERENCE"||t.type==="SOMEDAY"||t.type==="THINK"))t.tags=[]; });
     S._migrations.push("compass-links-2026-06-14"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
+  }
+  if(!S._migrations.includes("compass-fix-2026-06-15")){
+    var _dups=["lapl — register for library e-card", "bronson — brushed nickel for washer / dryer", "bronson — primary bath vanity decision"];
+    S.tasks=(S.tasks||[]).filter(function(t){ return !(t._mig==="compass" && _dups.indexOf((t.title||"").trim().toLowerCase())>=0); });
+    var _laplUrl="https://www.lapl.org/about-lapl/contact-us/e-card/e-card-registration";
+    (S.tasks||[]).forEach(function(t){ if((t.title||"").trim().toLowerCase()==="lapl — new card" && !t.link) t.link=_laplUrl; });
+    S._migrations.push("compass-fix-2026-06-15"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
   }
 }catch(e){}
 let saveTimer, dot=document.getElementById("saveDot");
@@ -1924,7 +1935,13 @@ function renderLibrary(){
   document.getElementById("libThink").innerHTML = by("THINK").map(lite).join("")||`<div class="empty">Nothing tagged #${active||""}</div>`;
 }
 
-function renderAll(){ renderFocus(); renderTasks(); renderLibrary(); }
+function renderCompleted(){
+  var el=document.getElementById("completedList"); if(!el) return;
+  var done=(S.tasks||[]).filter(function(t){return t.done;}).sort(function(a,b){return (b.doneAt||"").localeCompare(a.doneAt||"");});
+  var c=document.getElementById("completedCount"); if(c) c.textContent=done.length||"";
+  el.innerHTML = done.length ? done.map(function(t){return rowHTML(t,{});}).join("") : '<div class="empty">Nothing completed yet — check off a task and it lands here.</div>';
+}
+function renderAll(){ renderFocus(); renderTasks(); renderLibrary(); renderCompleted(); }
 
 /* ───────────────── Events ───────────────── */
 function openSheet(id){
@@ -1946,7 +1963,7 @@ function openSheet(id){
 }
 function showView(v){
   document.querySelectorAll("#seg button").forEach(b=>b.classList.toggle("on", b.dataset.v===v));
-  ["focus","tasks","library"].forEach(x=>document.getElementById("v-"+x).classList.toggle("hide", x!==v));
+  ["focus","tasks","library","completed"].forEach(x=>document.getElementById("v-"+x).classList.toggle("hide", x!==v));
 }
 document.body.addEventListener("click", e=>{
   const st=e.target.closest(".stat");
