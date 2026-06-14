@@ -1636,7 +1636,12 @@ const SEED = {
   {"title": "People — new L.A. Ferris wheel (West Harbor, 2027)", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://apple.news/A3k_8C96MQMmjXlssxXHqfw"},
   {"title": "LA Times — new CA transit-housing density law (July)", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://apple.news/ARtcJvJNZRo2Gv63in_xKcg"},
   {"title": "Wisdom of the Bullfrog — bonus material", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://wisdomofthebullfrog.com/"},
-  {"title": "Outside app — partners", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://ousideapp.com/partners"}
+  {"title": "Outside app — partners", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 13", "_mig": "compass", "link": "https://ousideapp.com/partners"},
+  {"title": "3965 Moore #104 — showing follow-up (Bill; share video)", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep"},
+  {"title": "Mulholland 14405 — prep punch list: touch-ups, wallpaper, carpet, valet, Sept move-in", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep"},
+  {"title": "Bronson — fix interior door (doesn't close)", "type": "DO", "goalTag": "bronson", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep"},
+  {"title": "Delmy Martinez (Columbia Bank) — follow up from ULI", "type": "DO", "goalTag": "amre", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep"},
+  {"title": "LinkedIn — Brian Buffini ‘becoming a millionaire’ video", "type": "REFERENCE", "goalTag": "admin", "isProject": false, "nextAction": "", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep", "link": "https://www.linkedin.com/posts/ramseysolutions-lampo_brian-buffini-talks-becoming-a-millionaire-activity-7341494983931097088-E7MN"}
  ],
  "scorecard": {
   "conversations": {
@@ -1683,6 +1688,12 @@ try{
     var _laplUrl="https://www.lapl.org/about-lapl/contact-us/e-card/e-card-registration";
     (S.tasks||[]).forEach(function(t){ if((t.title||"").trim().toLowerCase()==="lapl — new card" && !t.link) t.link=_laplUrl; });
     S._migrations.push("compass-fix-2026-06-15"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
+  }
+  if(!S._migrations.includes("compass-sweep-2026-06-15")){
+    var _have=new Set((S.tasks||[]).map(function(t){return (t.title||"").trim().toLowerCase();}));
+    SEED.tasks.filter(function(t){return t._mig==="sweep" && !_have.has((t.title||"").trim().toLowerCase());})
+      .forEach(function(t,k){ var c=JSON.parse(JSON.stringify(t)); c.id="swp"+k; (S.tasks=S.tasks||[]).push(c); });
+    S._migrations.push("compass-sweep-2026-06-15"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
   }
 }catch(e){}
 let saveTimer, dot=document.getElementById("saveDot");
