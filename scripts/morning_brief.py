@@ -33,8 +33,17 @@ def execute(slug, args, account_id):
 
 def main():
     acc = accounts()
-    tasks = execute("GOOGLETASKS_LIST_ALL_TASKS",
-        {"max_tasks_total": 500, "showCompleted": False}, acc["googletasks"])
+    if not acc.get("gmail"):
+        raise SystemExit("Gmail not connected in Composio — cannot send brief.")
+    tasks = {}
+    if acc.get("googletasks"):
+        try:
+            tasks = execute("GOOGLETASKS_LIST_ALL_TASKS",
+                {"max_tasks_total": 500, "showCompleted": False}, acc["googletasks"])
+        except Exception as e:
+            print("Google Tasks skipped:", e)
+    else:
+        print("Google Tasks not connected — building brief from inbox only.")
     emails = execute("GMAIL_FETCH_EMAILS",
         {"max_results": 25, "query": "in:inbox newer_than:1d", "user_id": "me"}, acc["gmail"])
 
