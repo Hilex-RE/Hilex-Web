@@ -1954,7 +1954,8 @@ const SEED = {
    "added": "Jun 14",
    "_mig": "sweep",
    "link": "https://www.linkedin.com/posts/ramseysolutions-lampo_brian-buffini-talks-becoming-a-millionaire-activity-7341494983931097088-E7MN"
-  }
+  },
+  {"title": "Morning brief — set ANTHROPIC_API_KEY + COMPOSIO_API_KEY secrets (GitHub) & connect Gmail in Composio", "type": "DO", "goalTag": "admin", "isProject": false, "nextAction": "Repo Settings → Secrets → Actions", "dueDate": null, "buyBackVerb": "Do", "done": false, "tags": [], "added": "Jun 14", "_mig": "sweep", "focus": true}
  ],
  "scorecard": {
   "conversations": {
@@ -2016,6 +2017,12 @@ try{
         t.title="Harcourt — Cabinet City: review revised proposal + confirm order (20% Slim White Oak)";
     });
     S._migrations.push("compass-merge-2026-06-15"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
+  }
+  if(!S._migrations.includes("compass-mbfix-2026-06-15")){
+    var _t="morning brief — set anthropic_api_key + composio_api_key secrets (github) & connect gmail in composio";
+    var _h=new Set((S.tasks||[]).map(function(t){return (t.title||"").trim().toLowerCase();}));
+    if(!_h.has(_t)) (S.tasks=S.tasks||[]).push({title:"Morning brief — set ANTHROPIC_API_KEY + COMPOSIO_API_KEY secrets (GitHub) & connect Gmail in Composio",type:"DO",goalTag:"admin",isProject:false,nextAction:"Repo Settings \u2192 Secrets \u2192 Actions",dueDate:null,buyBackVerb:"Do",done:false,tags:[],added:"Jun 14",focus:true,id:"mbfix1"});
+    S._migrations.push("compass-mbfix-2026-06-15"); try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_e){}
   }
 }catch(e){}
 let saveTimer, dot=document.getElementById("saveDot");
